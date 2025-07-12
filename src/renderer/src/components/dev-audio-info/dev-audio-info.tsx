@@ -26,13 +26,14 @@ export function DevAudioInfo() {
     <TooltipProvider>
       <Tooltip>
         <Popover>
-          <TooltipTrigger>
-            <PopoverTrigger asChild>
+          <PopoverTrigger asChild>
+            <TooltipTrigger asChild>
               <Button size="icon">
                 <InfoIcon />
               </Button>
-            </PopoverTrigger>
-          </TooltipTrigger>
+            </TooltipTrigger>
+          </PopoverTrigger>
+
           <PopoverContent className="w-[440px] bg-popover-foreground">
             <div className="space-y-4">
               <SelecetdSongData />
