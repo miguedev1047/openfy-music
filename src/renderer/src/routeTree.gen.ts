@@ -10,17 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as indexIndexRouteImport } from './routes/(index)/index'
-import { Route as SongViewRouteImport } from './routes/song/view'
 import { Route as SongSrcRouteImport } from './routes/song/$src'
 
 const indexIndexRoute = indexIndexRouteImport.update({
   id: '/(index)/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SongViewRoute = SongViewRouteImport.update({
-  id: '/song/view',
-  path: '/song/view',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SongSrcRoute = SongSrcRouteImport.update({
@@ -31,31 +25,27 @@ const SongSrcRoute = SongSrcRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/song/$src': typeof SongSrcRoute
-  '/song/view': typeof SongViewRoute
   '/': typeof indexIndexRoute
 }
 export interface FileRoutesByTo {
   '/song/$src': typeof SongSrcRoute
-  '/song/view': typeof SongViewRoute
   '/': typeof indexIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/song/$src': typeof SongSrcRoute
-  '/song/view': typeof SongViewRoute
   '/(index)/': typeof indexIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/song/$src' | '/song/view' | '/'
+  fullPaths: '/song/$src' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/song/$src' | '/song/view' | '/'
-  id: '__root__' | '/song/$src' | '/song/view' | '/(index)/'
+  to: '/song/$src' | '/'
+  id: '__root__' | '/song/$src' | '/(index)/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   SongSrcRoute: typeof SongSrcRoute
-  SongViewRoute: typeof SongViewRoute
   indexIndexRoute: typeof indexIndexRoute
 }
 
@@ -66,13 +56,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof indexIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/song/view': {
-      id: '/song/view'
-      path: '/song/view'
-      fullPath: '/song/view'
-      preLoaderRoute: typeof SongViewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/song/$src': {
@@ -87,7 +70,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   SongSrcRoute: SongSrcRoute,
-  SongViewRoute: SongViewRoute,
   indexIndexRoute: indexIndexRoute,
 }
 export const routeTree = rootRouteImport
