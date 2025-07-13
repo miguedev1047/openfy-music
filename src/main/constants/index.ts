@@ -8,3 +8,4 @@ export const openfyMusicDir = join(homedir(), 'openfy-music')
 
 export const musicDir = join(openfyMusicDir, 'Music')
 export const cacheDir = join(openfyMusicDir, 'Cache')
+export const playListsDir = join(openfyMusicDir, 'Playlists')
