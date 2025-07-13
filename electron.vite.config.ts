@@ -15,7 +15,8 @@ export default defineConfig({
     resolve: {
       alias: {
         '@renderer': resolve('src/renderer/src'),
-        '@shared': resolve('src/shared')
+        '@shared': resolve('src/shared'),
+        '@schemas': resolve('src/schemas')
       }
     },
     plugins: [tanstackRouter({ target: 'react', autoCodeSplitting: true }), react(), tailwindcss()]
