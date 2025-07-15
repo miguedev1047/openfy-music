@@ -4,8 +4,6 @@ import { extractColors } from 'extract-colors'
 import { FinalColor } from 'extract-colors/lib/types/Color'
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { AnimatePresence, motion } from 'motion/react'
-
 const DEFAULT_VALUE = {
   hex: '#00000000',
   red: 0,
@@ -15,17 +13,14 @@ const DEFAULT_VALUE = {
   hue: 0,
   saturation: 0,
   lightness: 0,
-  intensity: 0,
+  intensity: 0
 }
 
 export function useSongColors() {
   const selectedSong = useSelectedSongStore((state) => state.selectedSong)
   const [colors, setColors] = useState<FinalColor[] | null>(null)
 
-  const defaultColors: FinalColor[] = [
-    DEFAULT_VALUE,
-    DEFAULT_VALUE,
-  ]
+  const defaultColors: FinalColor[] = [DEFAULT_VALUE, DEFAULT_VALUE]
   const imageSrc = selectedSong?.pic
 
   useEffect(() => {
@@ -39,8 +34,8 @@ export function useSongColors() {
 
     return `
     linear-gradient(${deg}deg, 
-      rgba(${first.red}, ${first.green}, ${first.blue}, 0.4) 0%, 
-      rgba(${second.red}, ${second.green}, ${second.blue}, 0.4) 100%
+      rgba(${first.red}, ${first.green}, ${first.blue}, 0.7) 0%, 
+      rgba(${second.red}, ${second.green}, ${second.blue}, 0.7) 100%
   `
   }, [colors])
 
@@ -49,7 +44,7 @@ export function useSongColors() {
 
 export function SongColorBackground({
   children,
-  className,
+  className
 }: React.PropsWithChildren & {
   className?: string
 }) {
@@ -57,17 +52,10 @@ export function SongColorBackground({
 
   return (
     <div className={cn('relative overflow-hidden', className)}>
-      <AnimatePresence mode='wait'>
-        <motion.div
-          key={gradient}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: 'easeInOut' }}
-          className='transition-all duration-200 absolute inset-0 -z-10'
-          style={{ backgroundImage: gradient }}
-        />
-      </AnimatePresence>
+      <div
+        className="transition-all duration-200 ease-in-out absolute inset-0 -z-10"
+        style={{ backgroundImage: gradient }}
+      />
 
       {children}
     </div>
