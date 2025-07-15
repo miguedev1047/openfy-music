@@ -1,3 +1,13 @@
+export interface UserConfig {
+  defaultFolder: string
+  theme: 'light' | 'dark' | 'system'
+  autoplay: boolean
+  loop: boolean
+  shuffle: boolean
+  volume: number
+  developerMode?: boolean
+}
+
 export interface SongProps {
   title: string
   src: string
@@ -12,7 +22,13 @@ export interface SongItemProps extends SongProps {
   index: number
 }
 
-export interface RemoveSongProps {
-  filename: string
-  songHashId: string
+export interface PlaylistFolderProps {
+  title: string
+  playlist: string
+  totalSongs: number
+}
+
+export interface RenamePlaylistFolderProps {
+  oldName: string
+  newName: string
 }
