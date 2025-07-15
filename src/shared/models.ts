@@ -1,11 +1,6 @@
 export interface UserConfig {
   defaultFolder: string
   theme: 'light' | 'dark' | 'system'
-  autoplay: boolean
-  loop: boolean
-  shuffle: boolean
-  volume: number
-  developerMode?: boolean
 }
 
 export interface SongProps {
