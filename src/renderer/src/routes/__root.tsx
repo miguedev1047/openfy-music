@@ -7,7 +7,7 @@ import { Toaster } from '@renderer/components/ui/sonner'
 import { MainHeader } from '@renderer/components/main-header'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 // import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-import { SongsManager } from '@renderer/components/songs-manager'
+import { PlaylistInitializer } from '@renderer/components/playlist-initializer'
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -40,7 +40,7 @@ export const Route = createRootRouteWithContext<{
 
 export default function RootComponent() {
   return (
-    <SongsManager>
+    <PlaylistInitializer>
       <SongColorBackground className="w-full h-screen overflow-hidden p-3 select-none">
         <main className="w-full h-full flex flex-col gap-3">
           <MainHeader />
@@ -55,6 +55,6 @@ export default function RootComponent() {
 
       <ReactQueryDevtools />
       {/* <TanStackRouterDevtools /> */}
-    </SongsManager>
+    </PlaylistInitializer>
   )
 }
