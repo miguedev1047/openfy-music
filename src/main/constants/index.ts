@@ -5,10 +5,6 @@ import { UserConfig } from '../../shared/models'
 export const configData: UserConfig = {
   defaultFolder: 'My Music',
   theme: 'dark',
-  autoplay: false,
-  loop: false,
-  shuffle: false,
-  volume: 0.5
 }
 
 export const LOCAL_RESOURCE_PREFIX = 'local-resource://'
