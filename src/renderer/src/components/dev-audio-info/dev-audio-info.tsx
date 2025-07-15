@@ -1,12 +1,9 @@
-import { InfoIcon } from 'lucide-react'
-import { Button } from '@renderer/components/ui/button'
 import {
   useAudioOptsStore,
   usePlayerStore,
   useSelectedSongStore
 } from '@renderer/store/use-player-store'
-import { Popover, PopoverContent, PopoverTrigger } from '@renderer/components/ui/popover'
-import { Badge } from '@renderer/components/ui/badge'
+
 import {
   Card,
   CardContent,
@@ -14,6 +11,10 @@ import {
   CardHeader,
   CardTitle
 } from '@renderer/components/ui/card'
+import { InfoIcon } from 'lucide-react'
+import { Button } from '@renderer/components/ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '@renderer/components/ui/popover'
+import { Badge } from '@renderer/components/ui/badge'
 import { formatDurationPlayer } from '@renderer/helpers/format-duration'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
 
@@ -34,7 +35,7 @@ export function DevAudioInfo() {
             </TooltipTrigger>
           </PopoverTrigger>
 
-          <PopoverContent className="w-[440px] bg-popover-foreground">
+          <PopoverContent className="w-[440px]">
             <div className="space-y-4">
               <SelecetdSongData />
               <RealtimeData />
@@ -54,7 +55,7 @@ export function SelecetdSongData() {
   if (!stateSelectedSong) return null
 
   return (
-    <Card className="bg-accent text-accent-foreground">
+    <Card>
       <CardHeader>
         <CardTitle className="line-clamp-1">{stateSelectedSong?.title}</CardTitle>
         <CardDescription>{stateSelectedSong?.artist}</CardDescription>
@@ -78,7 +79,7 @@ export function RealtimeData() {
   const audioOpts = useAudioOptsStore((state) => state)
 
   return (
-    <Card className="bg-accent text-accent-foreground">
+    <Card>
       <CardHeader>
         <CardTitle>Estado de Reproducción</CardTitle>
         <CardDescription>Estadísticas del reproductor en tiempo real</CardDescription>
