@@ -37,7 +37,7 @@ function BlurredImage({ src, alt }: Omit<ImageProps, 'className' | 'loading'>) {
       <SimpleImage
         src={src}
         alt={alt}
-        className='absolute right-5 -bottom-[50%] -translate-y-[50%] scale-110 z-0 blur-3xl'
+        className='absolute right-5 -bottom-[50%] -translate-y-[50%] scale-110 z-0 blur-3xl opacity-80'
         loading='lazy'
       />
     </div>
