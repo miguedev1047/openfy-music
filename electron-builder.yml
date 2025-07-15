@@ -1,7 +1,8 @@
 appId: com.electron.app
-productName: OpenfyMusic
+productName: Openfy Music
 directories:
   buildResources: build
+  output: dist
 files:
   - '!**/.vscode/*'
   - '!src/*'
@@ -12,12 +13,20 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: OpenfyMusic
+  executableName: Openfy Music
+  target: nsis
+  icon: build/icon.png
+  signingHashAlgorithms:
+    - sha256
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+  oneClick: false # Permite al usuario personalizar la instalación
+  allowToChangeInstallationDirectory: true # Permite elegir el directorio de instalación
+  installerIcon: build/icon.png # Asegúrate de tener un ícono en esta ruta
+  uninstallerIcon: build/icon.png # Asegúrate de tener un ícono en esta ruta
 mac:
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
@@ -40,3 +49,5 @@ publish:
   url: https://example.com/auto-updates
 electronDownload:
   mirror: https://npmmirror.com/mirrors/electron/
+extraMetadata:
+  contentSecurityPolicy: "script-src 'self'" # Mejora la seguridad limitando la ejecución de scripts

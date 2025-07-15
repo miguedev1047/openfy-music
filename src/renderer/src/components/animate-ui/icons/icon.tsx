@@ -129,7 +129,6 @@ function AnimateIcon({
     currentAnimation.current =
       typeof animate === 'string' ? animate : animation;
     setLocalAnimate(!!animate);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [animate]);
 
   React.useEffect(
