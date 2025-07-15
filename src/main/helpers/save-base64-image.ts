@@ -6,15 +6,15 @@ import { cacheDir } from '../constants'
 interface SaveBase64ImageProps {
   base64String: string
   format: string
-  songHashId: string
+  id: string
 }
 
 export async function saveBase64Image(props: SaveBase64ImageProps) {
-  const { base64String, format, songHashId } = props
+  const { base64String, format, id } = props
 
   const extension = format.split('/')[1] || 'png'
 
-  const filename = `cover-${songHashId}.${extension}`
+  const filename = `cover-${id}.${extension}`
   const imagePath = join(cacheDir, filename)
 
   try {

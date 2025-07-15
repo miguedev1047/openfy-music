@@ -1,5 +1,13 @@
 import { net } from 'electron'
-import { convertPath } from './convert-path'
+
+export function convertPath(originalPath: string) {
+  const match = originalPath.match(/^\/([a-zA-Z])\/(.*)$/)
+  if (match) {
+    return `${match[1]}:/${match[2]}`
+  } else {
+    return originalPath
+  }
+}
 
 export function localResource(request) {
   const decodedUrl = decodeURIComponent(
