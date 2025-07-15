@@ -1,43 +1,59 @@
-import { ThemeOption } from './models'
+export const DEFAULT_THEMES = [
+  {
+    name: 'Por defecto',
+    value: 'default'
+  }
+]
 
-export const THEMES: ThemeOption[] = [
+export const COLOR_THEMES = [
   {
-    name: 'Sistema',
-    value: 'system'
+    name: 'Azul',
+    value: 'blue',
+    color: 'oklch(0.62 0.19 260)'
   },
   {
-    name: 'Claro',
-    value: 'light',
-    color: 'oklch(0.994 0 0)'
+    name: 'Verde',
+    value: 'green',
+    color: 'oklch(oklch(0.72 0.19 150))'
   },
   {
-    name: 'Oscuro',
-    value: 'dark',
-    color: 'oklch(0.2217 0.0084 264.3897)'
+    name: 'Ambar',
+    value: 'amber',
+    color: 'oklch(0.77 0.16 70)'
   },
   {
-    name: 'Pastel Naranja',
-    value: 'orange-pastel',
-    color: 'oklch(0.711 0.1889 41.4035)'
+    name: 'Rosa',
+    value: 'rose',
+    color: 'oklch(0.65 0.22 16)'
   },
   {
-    name: 'Pastel Rosa',
-    value: 'pink-pastel',
-    color: 'oklch(0.6858 0.2652 343.7084)'
+    name: 'Violeta',
+    value: 'purple',
+    color: 'oklch(0.63 0.23 304)'
   },
   {
-    name: 'Pastel Índigo',
-    value: 'indigo-pastel',
-    color: 'oklch(0.5319 0.2608 271.6702)'
+    name: 'Fuchsia',
+    value: 'fuchsia',
+    color: 'oklch(0.67 0.26 322)'
   },
   {
-    name: 'Pastel Celeste',
-    value: 'light-blue-pastel',
-    color: 'oklch(0.7673 0.1442 232.2722)'
+    name: 'Naranja',
+    value: 'orange',
+    color: 'oklch(0.70 0.19 48)'
   },
   {
-    name: 'Lima Pastel',
-    value: 'lime-pastel',
-    color: 'oklch(0.8767 0.2418 147.7895)'
+    name: 'Teal',
+    value: 'teal',
+    color: 'oklch(0.70 0.12 183)'
+  },
+  {
+    name: 'Rojo',
+    value: 'red',
+    color: 'oklch(0.64 0.21 25)'
+  },
+  {
+    name: 'Amarillo',
+    value: 'yellow',
+    color: 'oklch(0.80 0.16 86)'
   }
 ]

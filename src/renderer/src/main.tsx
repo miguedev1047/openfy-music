@@ -1,19 +1,18 @@
 import '@renderer/styles/main.css'
 import '@renderer/styles/view-transitions.css'
-import '@renderer/styles/general-styles.css'
 
 import { scan } from 'react-scan'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
-import { RouterProvider, createMemoryHistory, createRouter } from '@tanstack/react-router'
+import { RouterProvider, createHashHistory, createRouter } from '@tanstack/react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AudioRefProvider } from '@renderer/providers/audio-ref-provider'
+import { ThemeProvider } from '@renderer/providers/theme-provider'
+import { ActiveThemeProvider } from '@renderer/components/ui/active-theme'
 
 scan({ enabled: process.env.NODE_ENV === 'development' })
 
-const memoryHistory = createMemoryHistory({
-  initialEntries: ['/']
-})
+const memoryHistory = createHashHistory()
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
@@ -44,11 +43,15 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <AudioRefProvider>
-          <RouterProvider router={router} />
-        </AudioRefProvider>
-      </QueryClientProvider>
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <ActiveThemeProvider>
+            <AudioRefProvider>
+              <RouterProvider router={router} />
+            </AudioRefProvider>
+          </ActiveThemeProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
     </StrictMode>
   )
 }
