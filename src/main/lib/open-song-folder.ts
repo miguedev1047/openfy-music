@@ -1,9 +1,11 @@
 import { shell } from 'electron'
-import { musicDir } from '../helpers/utils'
+import { join } from 'path'
+import { playListsDir } from '../constants'
 
-export async function openSongFolder() {
+export async function openSongFolder(playlistName: string) {
   try {
-    await shell.openPath(musicDir)
+    const playlistPath = join(playListsDir, playlistName)
+    await shell.openPath(playlistPath)
 
     return { success: true }
   } catch {
