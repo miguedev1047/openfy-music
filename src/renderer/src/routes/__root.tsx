@@ -6,7 +6,8 @@ import { QueryClient } from '@tanstack/react-query'
 import { Toaster } from '@renderer/components/ui/sonner'
 import { MainHeader } from '@renderer/components/main-header'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+// import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+import { SongsManager } from '@renderer/components/songs-manager'
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -39,21 +40,21 @@ export const Route = createRootRouteWithContext<{
 
 export default function RootComponent() {
   return (
-    <>
-      <SongColorBackground className="w-full h-screen overflow-hidden p-1 rounded-(--radius) select-none">
-        <SongColorBackground className="glass-item w-full h-full flex flex-col gap-2 p-2 rounded-(--radius)">
+    <SongsManager>
+      <SongColorBackground className="w-full h-screen overflow-hidden p-3 select-none">
+        <main className="w-full h-full flex flex-col gap-3">
           <MainHeader />
 
           <Outlet />
 
           <SongPlayer />
-        </SongColorBackground>
+        </main>
       </SongColorBackground>
 
-      <Toaster richColors />
+      <Toaster position='top-center' richColors />
 
       <ReactQueryDevtools />
-      <TanStackRouterDevtools />
-    </>
+      {/* <TanStackRouterDevtools /> */}
+    </SongsManager>
   )
 }

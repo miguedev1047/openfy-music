@@ -6,9 +6,13 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from '@renderer/components/ui/tooltip'
+import { usePlaylistSelectedStore } from '@renderer/store/use-playlist-selected'
 
 export function OpenFolderButton() {
-  const onOpenFolder = () => window.api.openSongFolder()
+  const selectedPlaylist = usePlaylistSelectedStore((state) => state.playlist)
+  const onOpenFolder = () => window.api.openSongFolder(selectedPlaylist)
+
+  if (!selectedPlaylist) return null
 
   return (
     <TooltipProvider>
@@ -18,8 +22,11 @@ export function OpenFolderButton() {
             <FolderIcon />
           </Button>
         </TooltipTrigger>
-        <TooltipContent side="bottom">Abrir carpeta de canciones</TooltipContent>
+        <TooltipContent side="bottom">
+          Abrir carpeta de la playlist: <strong>{selectedPlaylist}</strong>
+        </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   )
 }
+

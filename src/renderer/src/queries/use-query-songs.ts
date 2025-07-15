@@ -1,26 +1,17 @@
-import { SongProps } from '@shared/models'
-import { queryOptions } from '@tanstack/react-query'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 
-const getSongs = async () => {
-  const data = await window.api.getSongs()
+export const getSongByPlaylist = async (playlistName: string) => {
+  const data = await window.api.getSongsPlaylist(playlistName)
   if (!data) throw new Error('An ocurred error on fetching data!')
-  return data as SongProps[]
+  return data
 }
 
-export const getSongBySrc = async (src: string) => {
-  const data = await getSongs()
-  if (!data) throw new Error('An ocurred error on fetching data!')
-  const song = data.find((s) => s.src === src)
-  return song
-}
-
-export const songsQueryOptions = queryOptions({
-  queryKey: ['songs'],
-  queryFn: getSongs
-})
-
-export const songQueryBySrcOptions = (src: string) =>
+export const songsPlaylistsQueryOptions = (playlistName: string) =>
   queryOptions({
-    queryKey: ['song', src],
-    queryFn: () => getSongBySrc(src)
+    queryKey: ['songs', playlistName],
+    queryFn: () => getSongByPlaylist(playlistName)
   })
+
+export const useSongsPlaylist = (playlistName: string) => {
+  return useQuery(songsPlaylistsQueryOptions(playlistName))
+}

@@ -8,6 +8,7 @@ import { SongItemProps } from '@shared/models'
 import { Play } from 'lucide-react'
 import { AnimateIcon } from '@renderer/components/animate-ui/icons/icon'
 import { AudioLines } from '@renderer/components/animate-ui/icons/audio-lines'
+import { Box } from '@renderer/components/ui/box'
 
 export function useSongItem(props: SongItemProps) {
   const { artist, duration, src, title, pic, index } = props
@@ -54,13 +55,13 @@ export function SongItem(props: SongItemProps) {
     useSongItem(props)
 
   return (
-    <article
+    <Box
       onClick={onSelectSong}
       key={src}
+      data-selected={selectedSong}
       className={cn(
-        'relative cursor-pointer hover:glass-item hover:text-muted/70 p-3 gap-4 flex flex-row items-center group/song-card',
-        selectedSong && 'glass-item text-muted/70',
-        !selectedSong && 'border border-transparent'
+        'relative cursor-pointer hover:bg-secondary p-3 gap-4 flex flex-row items-center group/song-card',
+        'data-[selected=true]:bg-secondary data-[selected=false]:border data-[selected=false]:border-transparent bg-transparent'
       )}
     >
       <div className="w-5 h-4 relative">
@@ -82,12 +83,17 @@ export function SongItem(props: SongItemProps) {
 
       <div className="flex flex-1 items-center justify-between gap-8">
         <div>
-          <h3 className="text-base font-bold line-clamp-1">{title}</h3>
+          <h3
+            data-selected={selectedSong}
+            className={cn('text-base font-bold line-clamp-1', 'data-[selected=true]:text-primary')}
+          >
+            {title}
+          </h3>
           <p className="text-[12px]">{artist}</p>
         </div>
 
         <p className="font-bold text-sm">{formatDurationPlayer(duration)}</p>
       </div>
-    </article>
+    </Box>
   )
 }

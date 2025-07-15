@@ -9,9 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ConfigIndexRouteImport } from './routes/config/index'
 import { Route as indexIndexRouteImport } from './routes/(index)/index'
 import { Route as SongSrcRouteImport } from './routes/song/$src'
 
+const ConfigIndexRoute = ConfigIndexRouteImport.update({
+  id: '/config/',
+  path: '/config/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const indexIndexRoute = indexIndexRouteImport.update({
   id: '/(index)/',
   path: '/',
@@ -26,31 +32,42 @@ const SongSrcRoute = SongSrcRouteImport.update({
 export interface FileRoutesByFullPath {
   '/song/$src': typeof SongSrcRoute
   '/': typeof indexIndexRoute
+  '/config': typeof ConfigIndexRoute
 }
 export interface FileRoutesByTo {
   '/song/$src': typeof SongSrcRoute
   '/': typeof indexIndexRoute
+  '/config': typeof ConfigIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/song/$src': typeof SongSrcRoute
   '/(index)/': typeof indexIndexRoute
+  '/config/': typeof ConfigIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/song/$src' | '/'
+  fullPaths: '/song/$src' | '/' | '/config'
   fileRoutesByTo: FileRoutesByTo
-  to: '/song/$src' | '/'
-  id: '__root__' | '/song/$src' | '/(index)/'
+  to: '/song/$src' | '/' | '/config'
+  id: '__root__' | '/song/$src' | '/(index)/' | '/config/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   SongSrcRoute: typeof SongSrcRoute
   indexIndexRoute: typeof indexIndexRoute
+  ConfigIndexRoute: typeof ConfigIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/config/': {
+      id: '/config/'
+      path: '/config'
+      fullPath: '/config'
+      preLoaderRoute: typeof ConfigIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(index)/': {
       id: '/(index)/'
       path: '/'
@@ -71,6 +88,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   SongSrcRoute: SongSrcRoute,
   indexIndexRoute: indexIndexRoute,
+  ConfigIndexRoute: ConfigIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
