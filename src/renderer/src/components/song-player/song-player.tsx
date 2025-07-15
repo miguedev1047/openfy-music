@@ -16,12 +16,16 @@ export function SongPlayer() {
 
       <TooltipProvider>
         <div className="flex items-center gap-12">
-          <div className="flex items-center gap-1">
-            <PrevButton />
-            <PlayButton />
-            <NextButton />
-            <ShuffleButton />
-            <LoopButton />
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1">
+              <PrevButton />
+              <PlayButton />
+              <NextButton />
+            </div>
+            <div className="flex items-center gap-1">
+              <ShuffleButton />
+              <LoopButton />
+            </div>
           </div>
 
           <Progressbar />
