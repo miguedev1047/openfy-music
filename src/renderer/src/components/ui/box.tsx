@@ -7,7 +7,7 @@ function Box({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card"
       className={cn(
-        "bg-card text-card-foreground rounded-xl p-4",
+        "bg-background text-foreground rounded-xl p-4",
         className
       )}
       {...props}
