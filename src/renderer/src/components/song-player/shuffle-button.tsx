@@ -1,13 +1,8 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@renderer/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@renderer/components/ui/tooltip'
 import { useSelectedSongStore, useAudioOptsStore } from '@renderer/store/use-player-store'
 import { useAudioRef } from '@renderer/providers/audio-ref-provider'
 import { Shuffle } from 'lucide-react'
 import { Button } from '@renderer/components/ui/button'
-import { cn } from '@renderer/lib/utils'
 
 export function useShuffleButton() {
   const { audioRef } = useAudioRef()
@@ -36,16 +31,12 @@ export function ShuffleButton() {
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
-          size='icon'
+          size="icon"
           onClick={onToggleShuffle}
           disabled={!selectedSong}
+          variant={isShuffle ? 'secondary' : 'default'}
         >
-          <Shuffle
-            className={cn(
-              isShuffle &&
-                'transition-all duration-200 ease-in-out text-green-400'
-            )}
-          />
+          <Shuffle />
         </Button>
       </TooltipTrigger>
       <TooltipContent>

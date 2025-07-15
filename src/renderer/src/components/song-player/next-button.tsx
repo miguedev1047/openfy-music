@@ -4,13 +4,13 @@ import { toast } from 'sonner'
 import { usePlaySong } from '@renderer/hooks/use-play-song'
 import { SkipForward } from 'lucide-react'
 import { Button } from '@renderer/components/ui/button'
-import { songsQueryOptions } from '@renderer/queries/use-query-songs'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useSongsPlaylist } from '@renderer/queries/use-query-songs'
 import { useLocation, useNavigate } from '@tanstack/react-router'
+import { usePlaylistSelectedStore } from '@renderer/store/use-playlist-selected'
 
 export function useNextButton() {
-  const songsQuery = useSuspenseQuery(songsQueryOptions)
-  const songs = songsQuery.data
+  const selectedPlaylist = usePlaylistSelectedStore((state) => state.playlist)
+  const { data: songs } = useSongsPlaylist(selectedPlaylist)
 
   const { onPlaySong } = usePlaySong()
 
@@ -18,6 +18,7 @@ export function useNextButton() {
   const location = useLocation()
 
   const isInHome = location.pathname === '/'
+  const isInConfig = location.pathname === '/config'
 
   const selectedSong = useSelectedSongStore((state) => state.selectedSong)
   const isShuffleActive = useAudioOptsStore((state) => state.isShuffle)
@@ -46,7 +47,7 @@ export function useNextButton() {
 
     onPlaySong(nextSong)
 
-    if (!isInHome) {
+    if (!isInHome && !isInConfig) {
       navigate({
         to: '/song/$src',
         params: { src: nextSong.src },

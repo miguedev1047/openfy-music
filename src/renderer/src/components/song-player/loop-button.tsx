@@ -1,16 +1,8 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@renderer/components/ui/tooltip'
-import {
-  useAudioOptsStore,
-  useSelectedSongStore,
-} from '@renderer/store/use-player-store'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@renderer/components/ui/tooltip'
+import { useAudioOptsStore, useSelectedSongStore } from '@renderer/store/use-player-store'
 import { Button } from '@renderer/components/ui/button'
 import { Repeat } from 'lucide-react'
 import { useAudioRef } from '@renderer/providers/audio-ref-provider'
-import { cn } from '@renderer/lib/utils'
 import { useEffect } from 'react'
 
 export function useLoopButton() {
@@ -45,15 +37,12 @@ export function LoopButton() {
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
-          size='icon'
+          size="icon"
           onClick={onToggleLoop}
           disabled={!selectedSong}
+          variant={isLoop ? 'outline' : 'default'}
         >
-          <Repeat
-            className={cn(
-              isLoop && 'transition-all duration-200 ease-in-out text-green-400'
-            )}
-          />
+          <Repeat />
         </Button>
       </TooltipTrigger>
       <TooltipContent>

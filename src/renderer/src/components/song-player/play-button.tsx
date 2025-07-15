@@ -1,16 +1,13 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@renderer/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@renderer/components/ui/tooltip'
 import { Button } from '@renderer/components/ui/button'
-import { usePlayerStore } from '@renderer/store/use-player-store'
+import { usePlayerStore, useSelectedSongStore } from '@renderer/store/use-player-store'
 import { useAudioRef } from '@renderer/providers/audio-ref-provider'
 import { Pause, Play } from 'lucide-react'
 
 export function usePlayButton() {
   const { audioRef } = useAudioRef()
 
+  const selectedSong = useSelectedSongStore((state) => state.selectedSong)
   const isPlaying = usePlayerStore((state) => state.isPlaying)
   const setIsPlaying = usePlayerStore((state) => state.setIsPlaying)
 
@@ -26,25 +23,20 @@ export function usePlayButton() {
     }
   }
 
-  return { handlePlayPause, isPlaying }
+  return { handlePlayPause, selectedSong, isPlaying }
 }
 
 export function PlayButton() {
-  const { handlePlayPause, isPlaying } = usePlayButton()
+  const { handlePlayPause, selectedSong, isPlaying } = usePlayButton()
 
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button
-          size='icon'
-          onClick={handlePlayPause}
-        >
+        <Button size="icon" onClick={handlePlayPause} disabled={!selectedSong}>
           {isPlaying ? <Pause /> : <Play />}
         </Button>
       </TooltipTrigger>
-      <TooltipContent>
-        {isPlaying ? 'Pausar' : 'Reproducir'}
-      </TooltipContent>
+      <TooltipContent>{isPlaying ? 'Pausar' : 'Reproducir'}</TooltipContent>
     </Tooltip>
   )
 }

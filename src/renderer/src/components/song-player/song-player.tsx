@@ -7,10 +7,11 @@ import { AudioPlayer } from '@renderer/components/song-player/audio-player'
 import { LoopButton } from '@renderer/components/song-player/loop-button'
 import { ShuffleButton } from '@renderer/components/song-player/shuffle-button'
 import { TooltipProvider } from '@renderer/components/ui/tooltip'
+import { Box } from '@renderer/components/ui/box'
 
 export function SongPlayer() {
   return (
-    <div className="w-full glass-item p-4">
+    <Box className="w-full">
       <AudioPlayer />
 
       <TooltipProvider>
@@ -30,6 +31,6 @@ export function SongPlayer() {
           </div>
         </div>
       </TooltipProvider>
-    </div>
+    </Box>
   )
 }

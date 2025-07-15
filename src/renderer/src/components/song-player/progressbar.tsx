@@ -50,7 +50,7 @@ export function Progressbar() {
   const { currentTime, duration, onChangeSeek, onSeekEnd, selectedSong } = useProgressbar()
 
   return (
-    <div className="w-full flex items-center gap-2 text-xs text-muted font-bold">
+    <div className="w-full flex items-center gap-2 text-xs font-bold">
       <p>{formatDurationPlayer(currentTime)}</p>
       <Slider
         disabled={!selectedSong}
