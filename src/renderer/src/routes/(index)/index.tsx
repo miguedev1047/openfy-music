@@ -32,18 +32,17 @@ export const Route = createFileRoute('/(index)/')({
 
 function IndexComponent() {
   return (
-    <div className="flex flex-1 items-center gap-3 overflow-y-auto [view-transition-name:main-content]">
-      <SongPreview />
-
-      <div className="w-1/2 h-full flex flex-1 flex-col gap-3">
-        <Box className="flex items-center gap-2 p-3">
+    <div className="flex flex-1 items-center gap-2 overflow-y-auto [view-transition-name:main-content]">
+      <div className="h-full flex flex-1 flex-col gap-2">
+        <Box className="flex items-center gap-2 p-4">
           <PlaylistManager />
           <DialogAddPlaylist />
           <OpenFolderButton />
         </Box>
-
         <SongList />
       </div>
+
+      <SongPreview />
     </div>
   )
 }
