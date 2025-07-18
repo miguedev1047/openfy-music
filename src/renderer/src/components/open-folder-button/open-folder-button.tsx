@@ -1,18 +1,19 @@
-import { FolderIcon } from 'lucide-react'
-import { Button } from '@renderer/components/ui/button'
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger
 } from '@renderer/components/ui/tooltip'
-import { usePlaylistSelectedStore } from '@renderer/store/use-playlist-selected'
+import { FolderIcon } from 'lucide-react'
+import { Button } from '@renderer/components/ui/button'
+import { usePlaylistActiveStore } from '@renderer/store/use-playlist-manager-store'
 
 export function OpenFolderButton() {
-  const selectedPlaylist = usePlaylistSelectedStore((state) => state.playlist)
-  const onOpenFolder = () => window.api.openSongFolder(selectedPlaylist)
+  const activePlaylist = usePlaylistActiveStore((state) => state.activePlaylist)
+  const onOpenFolder = () => window.api.openSongFolder(activePlaylist)
 
-  if (!selectedPlaylist) return null
+  if (!activePlaylist) return null
 
   return (
     <TooltipProvider>
@@ -23,7 +24,7 @@ export function OpenFolderButton() {
           </Button>
         </TooltipTrigger>
         <TooltipContent side="bottom">
-          Abrir carpeta de la playlist: <strong>{selectedPlaylist}</strong>
+          Abrir carpeta de la playlist: <strong>{activePlaylist}</strong>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

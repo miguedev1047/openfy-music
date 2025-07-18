@@ -6,32 +6,34 @@ import {
   CommandItem,
   CommandList
 } from '@renderer/components/ui/command'
+import {
+  usePlaylistActionsStore,
+  usePlaylistActiveStore
+} from '@renderer/store/use-playlist-manager-store'
 import { AlertDialog } from '@renderer/components/ui/alert-dialog'
 import { Check, Folder } from 'lucide-react'
 import { playlistsFoldersQueryOptions } from '@renderer/queries/use-query-playlist'
 import { useQuery } from '@tanstack/react-query'
-import { usePlaylistSelectedStore } from '@renderer/store/use-playlist-selected'
-import { usePlaylistManagerStore } from '@renderer/store/use-playlist-manager-store'
 import { DialogRemovePlaylist, DialogRenamePlaylist, PlaylistOptions } from './playlist-options'
-import { useDataConfig } from '@renderer/queries/use-query-data'
+import { useConfig } from '@renderer/queries/use-query-data'
 
 export function PlaylistFolders() {
-  const configDataQuery = useDataConfig()
+  const configDataQuery = useConfig()
   const configData = configDataQuery.data
 
   const playlistFoldersQuery = useQuery(playlistsFoldersQueryOptions)
   const playlistFolders = playlistFoldersQuery.data ?? []
 
-  const playlist = usePlaylistSelectedStore((state) => state.playlist)
-  const setPlaylist = usePlaylistSelectedStore((state) => state.setPlaylist)
+  const activePlaylist = usePlaylistActiveStore((state) => state.activePlaylist)
+  const setActivePlaylist = usePlaylistActiveStore((state) => state.setActivePlaylist)
 
-  const setIsOpen = usePlaylistManagerStore((state) => state.setIsOpen)
-  const selectedManagerOption = usePlaylistManagerStore((state) => state.selectedOption)
+  const setIsOpen = usePlaylistActionsStore((state) => state.setIsOpen)
+  const selectedManagerOption = usePlaylistActionsStore((state) => state.selectedAction)
 
   const onChangeFolder = (value: string) => {
     const folder = playlistFolders.find((folder) => folder.playlist === value)
     if (!folder) return
-    setPlaylist(value)
+    setActivePlaylist(value)
   }
 
   const DialogContent = () => {
@@ -46,13 +48,13 @@ export function PlaylistFolders() {
   }
 
   const FOLDER_ITEMS = playlistFolders.map((folder) => {
-    const isChecked = playlist === folder.playlist
+    const isChecked = activePlaylist === folder.playlist
     const isDefaultPlaylist = folder.playlist === configData.defaultFolder
 
     const Checked = () => (isChecked ? <Check size={16} className="absolute left-2" /> : null)
 
     const onSelectFolder = (value: string) => {
-      onChangeFolder(value === playlist ? '' : value)
+      onChangeFolder(value === activePlaylist ? '' : value)
       setIsOpen(false)
     }
 

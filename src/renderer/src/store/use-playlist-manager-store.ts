@@ -1,21 +1,37 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
-export type PlaylistManagerOptions = 'remove' | 'rename' | 'none'
+export type PlaylistActions = 'remove' | 'rename' | 'none'
 
-interface PlaylistManagerStoreProps {
+export interface PlaylistActionsStore {
   isOpen: boolean
   selectedPlaylist: string
-  selectedOption: PlaylistManagerOptions
+  selectedAction: PlaylistActions
   setIsOpen: (isOpen: boolean) => void
-  setSelectOption: (selectedOption: PlaylistManagerOptions) => void
+  setSelectedAction: (selectedAction: PlaylistActions) => void
   setSelectedPlaylist: (selectedPlaylist: string) => void
 }
 
-export const usePlaylistManagerStore = create<PlaylistManagerStoreProps>((set) => ({
+export interface PlaylistActiveStore {
+  activePlaylist: string
+  setActivePlaylist: (activePlaylist: string) => void
+}
+
+export const usePlaylistActionsStore = create<PlaylistActionsStore>((set) => ({
   isOpen: false,
-  selectedOption: 'none',
+  selectedAction: 'none',
   selectedPlaylist: '',
   setIsOpen: (isOpen) => set(() => ({ isOpen })),
-  setSelectOption: (selectedOption) => set(() => ({ selectedOption })),
+  setSelectedAction: (selectedAction) => set(() => ({ selectedAction })),
   setSelectedPlaylist: (selectedPlaylist) => set(() => ({ selectedPlaylist }))
 }))
+
+export const usePlaylistActiveStore = create<PlaylistActiveStore>()(
+  persist(
+    (set) => ({
+      activePlaylist: '',
+      setActivePlaylist: (activePlaylist) => set(() => ({ activePlaylist }))
+    }),
+    { name: 'active-playlist-store' }
+  )
+)

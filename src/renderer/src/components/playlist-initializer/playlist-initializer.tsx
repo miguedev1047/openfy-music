@@ -1,20 +1,20 @@
-import { useDataConfig } from '@renderer/queries/use-query-data'
+import { useConfig } from '@renderer/queries/use-query-data'
 import { useSongsPlaylist } from '@renderer/queries/use-query-songs'
-import { usePlaylistSelectedStore } from '@renderer/store/use-playlist-selected'
+import { usePlaylistActiveStore } from '@renderer/store/use-playlist-manager-store'
 import { useEffect } from 'react'
 
 export function PlaylistInitializer({ ...props }: React.ComponentProps<'div'>) {
-  const configDataQuery = useDataConfig()
+  const configDataQuery = useConfig()
   const configData = configDataQuery.data
 
-  const playlist = usePlaylistSelectedStore((state) => state.playlist)
-  const setPlaylist = usePlaylistSelectedStore((state) => state.setPlaylist)
+  const activePlaylist = usePlaylistActiveStore((state) => state.activePlaylist)
+  const setActivePlaylist = usePlaylistActiveStore((state) => state.setActivePlaylist)
 
-  useSongsPlaylist(playlist)
+  useSongsPlaylist(activePlaylist)
 
   useEffect(() => {
-    if (playlist) return
-    setPlaylist(configData.defaultFolder)
+    if (activePlaylist) return
+    setActivePlaylist(configData.defaultFolder)
   }, [])
 
   return <div {...props} />

@@ -4,18 +4,18 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 import { useSongsPlaylist } from '@renderer/queries/use-query-songs'
 import { useFilterSongs } from '@renderer/store/use-filter-songs'
 import { filterItems } from '@renderer/helpers/filter-items'
-import { usePlaylistSelectedStore } from '@renderer/store/use-playlist-selected'
 import { ScrollContainer } from '@renderer/components/scroll-container'
-import { LoadingSongs } from '@renderer/components/ui-states/_index'
-import { ErrorLoadSongs } from '@renderer/components/ui-states/error'
-import { EmptySongsState } from '@renderer/components/ui-states/empty'
+import { LoadingState } from '@renderer/components/ui-states/_index'
+import { ErrorState } from '@renderer/components/ui-states/error'
+import { EmptyState } from '@renderer/components/ui-states/empty'
+import { usePlaylistActiveStore } from '@renderer/store/use-playlist-manager-store'
 
 const MemoizedSongItem = memo(SongItem)
 
 export function useSongList() {
-  const selectedPlaylist = usePlaylistSelectedStore((state) => state.playlist)
+  const activePlaylist = usePlaylistActiveStore((state) => state.activePlaylist)
 
-  const songsQuery = useSongsPlaylist(selectedPlaylist)
+  const songsQuery = useSongsPlaylist(activePlaylist)
   const songs = songsQuery.data ?? []
 
   const parentRef = useRef<HTMLDivElement>(null)
@@ -31,31 +31,31 @@ export function useSongList() {
 
   const items = rowVirtualizer.getVirtualItems()
 
-  return { selectedPlaylist, songsQuery, songs, parentRef, filteredItems, rowVirtualizer, items }
+  return { activePlaylist, songsQuery, songs, parentRef, filteredItems, rowVirtualizer, items }
 }
 
 export function SongList() {
-  const { selectedPlaylist, songsQuery, songs, parentRef, filteredItems, rowVirtualizer, items } =
+  const { activePlaylist, songsQuery, songs, parentRef, filteredItems, rowVirtualizer, items } =
     useSongList()
 
   if (songsQuery.isLoading) {
-    return <LoadingSongs />
+    return <LoadingState message="Cargando canciones..." />
   }
 
   if (songsQuery.isError || !songsQuery) {
-    return <ErrorLoadSongs />
+    return <ErrorState message="Error al cargar las canciones" />
   }
 
-  if (!selectedPlaylist) {
-    return <EmptySongsState message="Selecciona o crea una playlist" />
+  if (!activePlaylist) {
+    return <EmptyState message="Selecciona o crea una playlist" />
   }
 
   if (!songs.length) {
-    return <EmptySongsState message="No hay canciones en esta playlist" />
+    return <EmptyState message="No hay canciones en esta playlist" />
   }
 
   if (!filteredItems.length) {
-    return <EmptySongsState message="No se encontraron canciones que coincidan con tu búsqueda" />
+    return <EmptyState message="No se encontraron canciones que coincidan con tu búsqueda" />
   }
 
   return (

@@ -6,11 +6,11 @@ import { SkipBackIcon } from 'lucide-react'
 import { Button } from '@renderer/components/ui/button'
 import { useSongsPlaylist } from '@renderer/queries/use-query-songs'
 import { useLocation, useNavigate } from '@tanstack/react-router'
-import { usePlaylistSelectedStore } from '@renderer/store/use-playlist-selected'
+import { usePlaylistActiveStore } from '@renderer/store/use-playlist-manager-store'
 
 export function usePrevButton() {
-  const selectedPlaylist = usePlaylistSelectedStore((state) => state.playlist)
-  const { data: songs } = useSongsPlaylist(selectedPlaylist)
+  const activePlaylist = usePlaylistActiveStore((state) => state.activePlaylist)
+  const { data: songs } = useSongsPlaylist(activePlaylist)
 
   const { onPlaySong } = usePlaySong()
 

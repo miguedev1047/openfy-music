@@ -8,6 +8,11 @@ import {
   DropdownMenuItem
 } from '@renderer/components/ui/dropdown-menu'
 import {
+  PlaylistActions,
+  usePlaylistActionsStore,
+  usePlaylistActiveStore
+} from '@renderer/store/use-playlist-manager-store'
+import {
   Dialog,
   DialogClose,
   DialogContent,
@@ -35,10 +40,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from '@renderer/components/ui/alert-dialog'
-import {
-  PlaylistManagerOptions,
-  usePlaylistManagerStore
-} from '@renderer/store/use-playlist-manager-store'
 import { Trash, Ellipsis, Pencil } from 'lucide-react'
 import { Plus } from 'lucide-react'
 import { playlistName, PlaylistName } from '@schemas/index'
@@ -51,21 +52,20 @@ import { toast } from 'sonner'
 import { Button } from '@renderer/components/ui/button'
 import { MouseEventProps } from './_types'
 import { PlaylistFolderProps } from '@shared/models'
-import { usePlaylistSelectedStore } from '@renderer/store/use-playlist-selected'
 import { useState, useTransition } from 'react'
-import { useDataConfig } from '@renderer/queries/use-query-data'
+import { useConfig } from '@renderer/queries/use-query-data'
 
 const onPreventClick = (e: MouseEventProps) => e.stopPropagation()
 
 export function PlaylistOptions(props: PlaylistFolderProps) {
   const { playlist } = props
 
-  const setSelectOption = usePlaylistManagerStore((state) => state.setSelectOption)
-  const setSelectedManagerPlaylist = usePlaylistManagerStore((state) => state.setSelectedPlaylist)
+  const setSelectedAction = usePlaylistActionsStore((state) => state.setSelectedAction)
+  const setSelectedPlaylist = usePlaylistActionsStore((state) => state.setSelectedPlaylist)
 
-  const handleSelectOption = (opts: PlaylistManagerOptions) => {
-    setSelectOption(opts)
-    setSelectedManagerPlaylist(playlist)
+  const handleSelectOption = (opts: PlaylistActions) => {
+    setSelectedAction(opts)
+    setSelectedPlaylist(playlist)
   }
 
   return (
@@ -101,11 +101,11 @@ export function DialogRemovePlaylist() {
   const [isPending, startTransition] = useTransition()
   const queryClient = useQueryClient()
 
-  const dataConfigQuery = useDataConfig()
+  const dataConfigQuery = useConfig()
   const dataConfig = dataConfigQuery.data
 
-  const selectedManagerPlaylist = usePlaylistManagerStore((state) => state.selectedPlaylist)
-  const playlist = usePlaylistSelectedStore((state) => state.playlist)
+  const selectedManagerPlaylist = usePlaylistActionsStore((state) => state.selectedPlaylist)
+  const activePlaylist = usePlaylistActiveStore((state) => state.activePlaylist)
 
   const handleDeletePlaylist = async () => {
     startTransition(async () => {
@@ -115,7 +115,7 @@ export function DialogRemovePlaylist() {
           return
         }
 
-        if (selectedManagerPlaylist === playlist) {
+        if (selectedManagerPlaylist === activePlaylist) {
           toast.error('No puedes eliminar la playlist que estás viendo actualmente')
           return
         }
@@ -151,18 +151,18 @@ export function DialogRemovePlaylist() {
 export function DialogRenamePlaylist() {
   const queryClient = useQueryClient()
 
-  const dataConfigQuery = useDataConfig()
-  const dataConfig = dataConfigQuery.data
+  const configQuery = useConfig()
+  const config = configQuery.data
 
-  const playlist = usePlaylistSelectedStore((state) => state.playlist)
-  const setPlaylist = usePlaylistSelectedStore((state) => state.setPlaylist)
+  const activePlaylist = usePlaylistActiveStore((state) => state.activePlaylist)
+  const setActivePlaylist = usePlaylistActiveStore((state) => state.setActivePlaylist)
 
-  const selectedManagerPlaylist = usePlaylistManagerStore((state) => state.selectedPlaylist)
+  const selectedManagerPlaylist = usePlaylistActionsStore((state) => state.selectedPlaylist)
 
   const form = useForm<PlaylistName>({
     defaultValues: { playlistName: selectedManagerPlaylist },
-    resolver: zodResolver(playlistName),
-    values: { playlistName: selectedManagerPlaylist }
+    values: { playlistName: selectedManagerPlaylist },
+    resolver: zodResolver(playlistName)
   })
 
   const isPending = form.formState.isSubmitting
@@ -172,7 +172,7 @@ export function DialogRenamePlaylist() {
       const oldPlaylist = selectedManagerPlaylist
       const newPlaylist = values.playlistName
 
-      if (selectedManagerPlaylist === dataConfig.defaultFolder) {
+      if (selectedManagerPlaylist === config.defaultFolder) {
         toast.error('No puedes renombrar la playlist por defecto')
         return
       }
@@ -180,8 +180,8 @@ export function DialogRenamePlaylist() {
       await window.api.renamePlaylist({ oldName: oldPlaylist, newName: newPlaylist })
       queryClient.invalidateQueries(playlistsFoldersQueryOptions)
 
-      if (selectedManagerPlaylist === playlist) {
-        setPlaylist(newPlaylist)
+      if (selectedManagerPlaylist === activePlaylist) {
+        setActivePlaylist(newPlaylist)
       }
       form.reset()
       toast.success('El nombre de la playlist ha sido actualizado')
@@ -239,6 +239,8 @@ export function DialogAddPlaylist() {
 
   const [isOpen, setIsOpen] = useState(false)
 
+  const setActivePlaylist = usePlaylistActiveStore((state) => state.setActivePlaylist)
+
   const form = useForm<PlaylistName>({
     defaultValues: { playlistName: 'Nueva playlist' },
     resolver: zodResolver(playlistName)
@@ -248,9 +250,15 @@ export function DialogAddPlaylist() {
 
   const onSubmit = form.handleSubmit(async (values) => {
     try {
-      await window.api.newPlaylist(values.playlistName)
+      const playlistName = values.playlistName
+
+      await window.api.newPlaylist(playlistName)
       queryClient.invalidateQueries(playlistsFoldersQueryOptions)
+
       form.reset()
+      setIsOpen(false)
+      setActivePlaylist(playlistName)
+
       toast.success('Playlist creada con éxito')
     } catch {
       toast.error('Error al crear la playlist')
@@ -300,11 +308,9 @@ export function DialogAddPlaylist() {
             </Button>
           </DialogClose>
 
-          <DialogClose asChild>
-            <Button form="new-playlist-form" type="submit" disabled={isPending}>
-              Crear
-            </Button>
-          </DialogClose>
+          <Button form="new-playlist-form" type="submit" disabled={isPending}>
+            Crear
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
