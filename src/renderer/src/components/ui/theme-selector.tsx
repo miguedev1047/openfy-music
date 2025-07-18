@@ -12,16 +12,30 @@ import { cn } from '@renderer/lib/utils'
 import { useThemeConfig } from '@renderer/components/ui/active-theme'
 import { Label } from '@renderer/components/ui/label'
 import { COLOR_THEMES, DEFAULT_THEMES } from '@shared/constants'
+import { toast } from 'sonner'
+import { useTransition } from 'react'
 
 export function ThemeSelector({ className }: React.ComponentProps<'div'>) {
   const { activeTheme, setActiveTheme } = useThemeConfig()
+  const [isPending, startTransition] = useTransition()
+
+  const handleChangeActiveTheme = (activeTheme: string) => {
+    startTransition(async () => {
+      try {
+        setActiveTheme(activeTheme)
+        await window.api.updateConfigData({ activeTheme })
+      } catch {
+        toast.error('Error al cambiar el tema')
+      }
+    })
+  }
 
   return (
     <div className={cn('w-full flex items-center gap-2', className)}>
       <Label htmlFor="theme-selector" className="sr-only">
         Tema
       </Label>
-      <Select value={activeTheme} onValueChange={setActiveTheme}>
+      <Select value={activeTheme} onValueChange={handleChangeActiveTheme} disabled={isPending}>
         <SelectTrigger
           id="theme-selector"
           size="sm"
