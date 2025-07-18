@@ -1,6 +1,6 @@
 import { Box } from '@renderer/components/ui/box'
 
-export function EmptySongsState({ message = 'No hay canciones disponibles' }: { message: string }) {
+export function EmptyState({ message = 'No hay canciones disponibles' }: { message: string }) {
   return (
     <Box className="w-full h-full flex flex-col items-center justify-center py-12 text-center">
       <div className="w-1/2 mx-auto space-y-4">
