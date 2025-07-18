@@ -4,11 +4,13 @@ import { AnimateIcon } from '@renderer/components/animate-ui/icons/icon'
 import { AudioLines } from '@renderer/components/animate-ui/icons/audio-lines'
 import { Link } from '@tanstack/react-router'
 import { Box } from '@renderer/components/ui/box'
+import { MusicIcon } from 'lucide-react'
 
 export function SongPreview() {
   return (
-    <Box className="relative w-1/2 h-full p-0 overflow-hidden">
+    <Box className="relative w-[340px] h-full p-4 overflow-hidden">
       <SongDetails />
+      <SongAudioLines />
     </Box>
   )
 }
@@ -18,37 +20,38 @@ export function SongDetails() {
 
   if (!selectedSong)
     return (
-      <div className="size-full flex flex-col items-center justify-center">
+      <div className="w-full h-auto flex flex-col gap-6 z-10">
+        <figure className="aspect-square w-full h-full rounded-2xl bg-muted shadow-xl overflow-hidden grid place-items-center">
+          <MusicIcon className="size-32" />
+        </figure>
+
         <div>
-          <h3 className="text-2xl font-bold text-center">Hola, :D</h3>
-          <p>Selecciona una canción para escucharla.</p>
+          <h2 className="text-2xl font-black">Hola, :D</h2>
+          <p className="font-light">Selecciona una canción para escucharla.</p>
         </div>
       </div>
     )
 
   return (
-    <div className="relative size-full grid place-items-center p-4">
-      <div className="w-[50%] h-auto -translate-y-10">
-        <Link
-          to="/song/$src"
-          params={{ src: selectedSong.src }}
-          viewTransition={{ types: ['fade'] }}
-          className="w-full h-auto space-y-4 rounded-2xl z-10 transition-all duration-300 ease-in-out hover:scale-[110%]"
-        >
-          <SongImage
-            src={selectedSong.pic}
-            alt={selectedSong.title}
-            className="size-full"
-            isBlurred
-          />
-        </Link>
+    <div className="flex flex-col gap-6 w-full h-auto">
+      <Link
+        to="/song/$src"
+        params={{ src: selectedSong.src }}
+        viewTransition={{ types: ['fade'] }}
+        className="w-full h-auto rounded-2xl z-10"
+      >
+        <SongImage
+          src={selectedSong.pic}
+          alt={selectedSong.title}
+          className="size-full"
+          isBlurred
+        />
+      </Link>
 
-        <div className="mt-6">
-          <h2 className="text-xl font-black text-center line-clamp-1">{selectedSong.title}</h2>
-        </div>
+      <div>
+        <h2 className="text-2xl font-black line-clamp-1">{selectedSong.title}</h2>
+        <p className="font-light line-clamp-1">{selectedSong.artist}</p>
       </div>
-
-      <SongAudioLines />
     </div>
   )
 }
@@ -57,13 +60,12 @@ export function SongAudioLines() {
   const isPlaying = usePlayerStore((state) => state.isPlaying)
 
   return (
-    <div className="w-full h-auto opacity-50 absolute bottom-4 translate-y-[50%] text-primary flex items-center">
-      <AnimateIcon loop animate={isPlaying}>
-        <AudioLines className="size-full" />
-      </AnimateIcon>
-      <AnimateIcon loop animate={isPlaying}>
-        <AudioLines className="size-full" />
-      </AnimateIcon>
+    <div className="w-[90%] h-auto mx-auto opacity-50 absolute bottom-0 translate-y-[50%] text-primary flex items-center">
+      {[...Array(2)].map((_, index) => (
+        <AnimateIcon key={index} loop animate={isPlaying}>
+          <AudioLines className="size-full" />
+        </AnimateIcon>
+      ))}
     </div>
   )
 }
