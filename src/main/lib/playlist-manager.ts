@@ -16,22 +16,27 @@ export async function getPlayLists(): Promise<PlaylistFolderProps[]> {
   await ensureDir(playListsDir)
 
   const playlists = await readdir(playListsDir, { encoding: 'utf-8', withFileTypes: true })
+  const entry = playlists.filter((entry) => entry.isDirectory()).map((entry) => entry.name)
 
-  const filterFolders = playlists
-    .filter((dirent) => dirent.isDirectory())
-    .map((dirent) => dirent.name)
+  const folders = await Promise.all(entry.map(getPlayListPath))
+  const sorted = folders.toSorted((a, b) => +b.birthtime - +a.birthtime)
 
-  const promisesFolders = Promise.all(filterFolders.map(getPlayListPath))
-
-  return promisesFolders
+  return sorted
 }
 
 export async function getPlayListPath(filename: string): Promise<PlaylistFolderProps> {
-  const fileSource = `${playListsDir}/${filename}`
+  const fileSource = join(playListsDir, filename)
   await ensureDir(playListsDir)
 
+  const stats = await stat(fileSource)
   const songs = await readdir(fileSource, { encoding: 'utf-8', withFileTypes: true })
-  const finalData = { title: filename, playlist: filename, totalSongs: songs.length }
+
+  const finalData = {
+    title: filename,
+    playlist: filename,
+    totalSongs: songs.length,
+    birthtime: stats.birthtime
+  }
 
   return finalData
 }
@@ -44,14 +49,13 @@ export async function getSongsPlaylist(playlistName: string | undefined): Promis
   const playlistPath = join(playListsDir, playlistName)
   await ensureDir(playlistPath)
 
-  const songs = await readdir(playlistPath, { encoding: 'utf-8', withFileTypes: false })
+  const readSongs = await readdir(playlistPath, { encoding: 'utf-8', withFileTypes: false })
+  const entry = readSongs.filter((song) => filterByExtension(song))
 
-  const filteredSongs = songs.filter((song) => filterByExtension(song))
-  const promisesSongs = await Promise.all(
-    filteredSongs.map((item) => getSongPlaylistByPath(item, playlistName))
-  )
+  const songs = await Promise.all(entry.map((item) => getSongPlaylistByPath(item, playlistName)))
+  const sorted = songs.toSorted((a, b) => +b.birthtime - +a.birthtime)
 
-  return promisesSongs
+  return sorted
 }
 
 export async function getSongPlaylistByPath(
@@ -92,7 +96,6 @@ export async function getSongPlaylistByPath(
 
 export async function newPlaylist(playlistName: string): Promise<void> {
   const playlistPath = join(playListsDir, playlistName)
-  await ensureDir(playlistPath)
   await mkdir(playlistPath, { recursive: true })
 }
 
@@ -100,7 +103,6 @@ export async function newPlaylist(playlistName: string): Promise<void> {
 
 export async function removePlaylist(playlistName: string) {
   const playlistPath = join(playListsDir, playlistName)
-  await ensureDir(playlistPath)
   await rm(playlistPath, { recursive: true })
 }
 
@@ -110,7 +112,5 @@ export async function renamePlaylist(props: RenamePlaylistFolderProps) {
   const { oldName, newName } = props
   const oldPlaylistPath = join(playListsDir, oldName)
   const newPlaylistPath = join(playListsDir, newName)
-
-  await ensureDir(oldPlaylistPath)
   await rename(oldPlaylistPath, newPlaylistPath)
 }
