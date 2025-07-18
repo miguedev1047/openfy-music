@@ -1,4 +1,3 @@
-import { cn } from '@renderer/lib/utils'
 import { useSelectedSongStore } from '@renderer/store/use-player-store'
 import { extractColors } from 'extract-colors'
 import { FinalColor } from 'extract-colors/lib/types/Color'
@@ -42,22 +41,17 @@ export function useSongColors() {
   return { gradient }
 }
 
-export function SongColorBackground({
-  children,
-  className
-}: React.PropsWithChildren & {
-  className?: string
-}) {
+export function SongColorBackground({ children }: React.PropsWithChildren & {}) {
   const { gradient } = useSongColors()
 
   return (
-    <div className={cn('relative overflow-hidden', className)}>
+    <>
       <div
         className="transition-all duration-200 ease-in-out absolute inset-0 -z-10"
         style={{ backgroundImage: gradient }}
       />
 
       {children}
-    </div>
+    </>
   )
 }

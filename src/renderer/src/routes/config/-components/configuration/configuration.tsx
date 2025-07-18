@@ -28,14 +28,14 @@ import {
 import { usePlaylistFolders } from '@renderer/queries/use-query-playlist'
 import { useForm } from 'react-hook-form'
 import { defaultPlaylistFolder, DefaultPlaylistFolder } from '@schemas/index'
-import { useDataConfig } from '@renderer/queries/use-query-data'
+import { useConfig } from '@renderer/queries/use-query-data'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FolderIcon } from 'lucide-react'
 import { Button } from '@renderer/components/ui/button'
 import { toast } from 'sonner'
 
 export function Configuration() {
-  const configDataQuery = useDataConfig()
+  const configDataQuery = useConfig()
   const configData = configDataQuery.data
 
   const playlistFoldersQuery = usePlaylistFolders()

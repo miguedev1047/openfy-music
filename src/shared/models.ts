@@ -1,6 +1,12 @@
+import { COLOR_THEMES } from "./constants"
+
+export type ThemeValue = typeof COLOR_THEMES[number]['value']
+
 export interface UserConfig {
   defaultFolder: string
   theme: 'light' | 'dark' | 'system'
+  activeTheme: ThemeValue,
+  allowTyDLPDownloads: boolean
 }
 
 export interface SongProps {
@@ -20,6 +26,7 @@ export interface SongItemProps extends SongProps {
 export interface PlaylistFolderProps {
   title: string
   playlist: string
+  birthtime: Date
   totalSongs: number
 }
 

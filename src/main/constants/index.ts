@@ -3,8 +3,10 @@ import { join } from 'path'
 import { UserConfig } from '../../shared/models'
 
 export const configData: UserConfig = {
-  defaultFolder: 'My Music',
+  defaultFolder: 'Mis canciones',
   theme: 'dark',
+  activeTheme: 'default',
+  allowTyDLPDownloads: false
 }
 
 export const LOCAL_RESOURCE_PREFIX = 'local-resource://'

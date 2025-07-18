@@ -6,10 +6,10 @@ import { getConfigData } from './config-data'
 
 export async function ensureDefaultPlaylistsFolders() {
   try {
-    const config = await getConfigData()
+    const { defaultFolder } = await getConfigData()
 
-    if (!existsSync(playListsDir)) {
-      await mkdir(join(playListsDir, config.defaultFolder), { recursive: true })
+    if (!existsSync(join(playListsDir, defaultFolder))) {
+      await mkdir(join(playListsDir, defaultFolder), { recursive: true })
     }
   } catch {
     throw new Error('Error al crear las carpetas por defecto')

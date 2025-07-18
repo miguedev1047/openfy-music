@@ -20,12 +20,11 @@ export function SongView() {
   return (
     <article>
       <div className="absolute flex text-primary items-center w-[80%] h-auto top-0 -translate-y-[50%] inset-x-0 mx-auto opacity-50">
-        <AnimateIcon loop animate={isPlaying}>
-          <AudioLines className="size-full" />
-        </AnimateIcon>
-        <AnimateIcon loop animate={isPlaying}>
-          <AudioLines className="size-full" />
-        </AnimateIcon>
+        {[...Array(2)].map((_, index) => (
+          <AnimateIcon key={index} loop animate={isPlaying}>
+            <AudioLines className="size-full" />
+          </AnimateIcon>
+        ))}
       </div>
 
       <figure className="size-[350px] lg:size-[400px] mx-auto z-20">

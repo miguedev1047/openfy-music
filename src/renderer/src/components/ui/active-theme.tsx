@@ -1,5 +1,3 @@
-'use client'
-
 import { createContext, ReactNode, use, useEffect, useState } from 'react'
 
 const DEFAULT_THEME = 'default'
