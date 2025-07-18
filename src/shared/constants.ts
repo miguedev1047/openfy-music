@@ -14,7 +14,7 @@ export const COLOR_THEMES = [
   {
     name: 'Verde',
     value: 'green',
-    color: 'oklch(oklch(0.72 0.19 150))'
+    color: 'oklch(0.72 0.19 150)'
   },
   {
     name: 'Ambar',
