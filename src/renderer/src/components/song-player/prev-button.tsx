@@ -8,6 +8,8 @@ import { useSongsPlaylist } from '@renderer/queries/use-query-songs'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { usePlaylistActiveStore } from '@renderer/store/use-playlist-manager-store'
 
+const ROUTES = ['/', '/config', '/download']
+
 export function usePrevButton() {
   const activePlaylist = usePlaylistActiveStore((state) => state.activePlaylist)
   const { data: songs } = useSongsPlaylist(activePlaylist)
@@ -17,8 +19,7 @@ export function usePrevButton() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const isInHome = location.pathname === '/'
-  const isInConfig = location.pathname === '/config'
+  const isInRoutes = ROUTES.some((route) => location.pathname.startsWith(route))
 
   const selectedSong = useSelectedSongStore((state) => state.selectedSong)
   const isShuffleActive = useAudioOptsStore((state) => state.isShuffle)
@@ -47,7 +48,7 @@ export function usePrevButton() {
 
     onPlaySong(nextSong)
 
-    if (!isInHome && !isInConfig) {
+    if (!isInRoutes) {
       navigate({
         to: '/song/$src',
         params: { src: nextSong.src },
