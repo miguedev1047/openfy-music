@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle
 } from '@renderer/components/ui/card'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@renderer/components/ui/hover-card'
 import {
   Form,
   FormControl,
@@ -30,12 +31,13 @@ import { useForm } from 'react-hook-form'
 import { defaultPlaylistFolder, DefaultPlaylistFolder } from '@schemas/index'
 import { configQueryOpts, useConfig } from '@renderer/queries/use-query-data'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FolderIcon } from 'lucide-react'
+import { FolderIcon, InfoIcon, MessageCircleWarningIcon } from 'lucide-react'
 import { Button } from '@renderer/components/ui/button'
 import { toast } from 'sonner'
 import { Switch } from '@renderer/components/ui/switch'
 import { useQueryClient } from '@tanstack/react-query'
 import { AlertDependency } from '../alert-dependency'
+import { Alert, AlertDescription, AlertTitle } from '@renderer/components/ui/alert'
 
 export function ConfigurationForm() {
   const queryClient = useQueryClient()
@@ -125,13 +127,41 @@ export function ConfigurationForm() {
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-between gap-4">
                     <div className="space-y-2">
-                      <FormLabel>Permitir descargas por YT-DLP</FormLabel>
-
-                      <div className="space-y-2">
-                        <FormDescription>
-                          Esto habilita el poder descargar canciones a mp3 desde Youtube.
-                        </FormDescription>
+                      <div className="flex items-center">
+                        <HoverCard>
+                          <HoverCardTrigger asChild>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              className="text-destructive"
+                            >
+                              <InfoIcon />
+                            </Button>
+                          </HoverCardTrigger>
+                          <HoverCardContent side='left' className="w-[480px] text-pretty p-0">
+                            <Alert variant="destructive" className="border-0">
+                              <MessageCircleWarningIcon />
+                              <AlertTitle>Aviso de responsabilidad</AlertTitle>
+                              <AlertDescription>
+                                <p>El uso de esta funcionalidad es responsabilidad del usuario.</p>
+                                <p>
+                                  Este reproductor solo actúa como un puente gráfico para
+                                  herramientas de código abierto.
+                                </p>
+                                <p>
+                                  Asegúrate de cumplir con las leyes de derechos de autor en tu
+                                  país.
+                                </p>
+                              </AlertDescription>
+                            </Alert>
+                          </HoverCardContent>
+                        </HoverCard>
+                        <FormLabel>Permitir descargas por YT-DLP</FormLabel>
                       </div>
+                      <FormDescription>
+                        Esto habilita la opción de descargar canciones en formato MP3 desde YouTube.
+                      </FormDescription>
                     </div>
                     <FormControl>
                       <Switch checked={field.value} onCheckedChange={field.onChange} />
