@@ -28,22 +28,32 @@ import {
 import { usePlaylistFolders } from '@renderer/queries/use-query-playlist'
 import { useForm } from 'react-hook-form'
 import { defaultPlaylistFolder, DefaultPlaylistFolder } from '@schemas/index'
-import { useConfig } from '@renderer/queries/use-query-data'
+import { configQueryOpts, useConfig } from '@renderer/queries/use-query-data'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FolderIcon } from 'lucide-react'
 import { Button } from '@renderer/components/ui/button'
 import { toast } from 'sonner'
+import { Switch } from '@renderer/components/ui/switch'
+import { useQueryClient } from '@tanstack/react-query'
 
-export function Configuration() {
-  const configDataQuery = useConfig()
-  const configData = configDataQuery.data
+export function Configuration() { 
+  const queryClient = useQueryClient()
+
+  const configQuery = useConfig()
+  const config = configQuery.data
 
   const playlistFoldersQuery = usePlaylistFolders()
   const playlistFolders = playlistFoldersQuery.data ?? []
 
   const form = useForm<DefaultPlaylistFolder>({
-    defaultValues: { defaulFolder: configData.defaultFolder },
-    values: { defaulFolder: configData.defaultFolder },
+    defaultValues: {
+      defaulFolder: config.defaultFolder,
+      allowTyDLPDownloads: config.allowTyDLPDownloads
+    },
+    values: {
+      defaulFolder: config.defaultFolder,
+      allowTyDLPDownloads: config.allowTyDLPDownloads
+    },
     resolver: zodResolver(defaultPlaylistFolder)
   })
 
@@ -51,10 +61,15 @@ export function Configuration() {
 
   const onSubmit = form.handleSubmit(async (values) => {
     try {
-      await window.api.updateConfigData({ defaultFolder: values.defaulFolder })
-      toast.success(`Playlst por defecto cambiada a: ${values.defaulFolder}`)
+      await window.api.updateConfigData({
+        defaultFolder: values.defaulFolder,
+        allowTyDLPDownloads: values.allowTyDLPDownloads
+      })
+
+      queryClient.invalidateQueries(configQueryOpts)
+      toast.success('Configuracion actualizada con exito')
     } catch {
-      toast.error('Ha ocurrido un error al cambiar la playlist por defecto')
+      toast.error('Ha ocurrido un error al actualizar la configuracion')
     }
   })
 
@@ -64,13 +79,12 @@ export function Configuration() {
         <CardTitle>Configuración</CardTitle>
         <CardDescription>Configura tus preferencias de Openfy Music.</CardDescription>
       </CardHeader>
-
-      <CardContent>
+      <CardContent className='grid grid-cols-2'>
         <Form {...form}>
           <form
             id="update-folder-form"
             onSubmit={onSubmit}
-            className="w-full grid grid-cols-2 gap-4"
+            className="w-full grid gap-6"
           >
             <FormField
               control={form.control}
@@ -103,6 +117,24 @@ export function Configuration() {
                   <FormDescription>
                     La carpeta que escojas sera tu playlist principal.
                   </FormDescription>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="allowTyDLPDownloads"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between gap-4">
+                  <div className="space-y-2">
+                    <FormLabel>Permitir descargas por YT-DLP</FormLabel>
+                    <FormDescription>
+                      Esto habilita el poder descargar canciones a mp3 desde Youtube
+                    </FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                  </FormControl>
                 </FormItem>
               )}
             />
