@@ -3,15 +3,17 @@ import { Input } from '@renderer/components/ui/input'
 import { useFilterSongs } from '@renderer/store/use-filter-songs'
 import { useLocation } from '@tanstack/react-router'
 
+const ROUTES = ['/download', '/config']
+
 export function SearchInput() {
   const search = useFilterSongs((state) => state.search)
   const onSearch = useFilterSongs((state) => state.onSearch)
   const onClearSearch = (): void => onSearch('')
 
   const location = useLocation()
-  const isConfigRoute = location.pathname === '/config'
+  const isInRoutes = ROUTES.some(route => location.pathname.startsWith(route))
 
-  if (isConfigRoute) return
+  if (isInRoutes) return null
 
   return (
     <nav className="w-1/3">
