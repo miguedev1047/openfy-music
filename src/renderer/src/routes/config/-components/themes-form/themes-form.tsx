@@ -8,7 +8,7 @@ import {
 import { ThemeSelector } from '@renderer/components/ui/theme-selector'
 import { ModeToggle } from '@renderer/components/ui/mode-toggle'
 
-export function Themes() {
+export function ThemesForm() {
   return (
     <Card>
       <CardHeader>
