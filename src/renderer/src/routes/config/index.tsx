@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Configuration } from '@renderer/routes/config/-components/configuration'
-import { Themes } from '@renderer/routes/config/-components/themes'
+import { ConfigurationForm } from '@renderer/routes/config/-components/configuration-form'
+import { ThemesForm } from '@renderer/routes/config/-components/themes-form'
 import { Box } from '@renderer/components/ui/box'
 
 export const Route = createFileRoute('/config/')({
@@ -9,9 +9,9 @@ export const Route = createFileRoute('/config/')({
 
 export function RouteComponent() {
   return (
-    <Box className="flex flex-col flex-1 gap-4">
-      <Configuration />
-      <Themes />
+    <Box className="flex flex-col flex-1 p-4 space-y-4 overflow-y-auto scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-(--radius)">
+      <ConfigurationForm />
+      <ThemesForm />
     </Box>
   )
 }
