@@ -31,11 +31,25 @@ export function useSongColors() {
     const [first, second] = colors ?? defaultColors
     const deg = Math.floor(Math.random() * 360)
 
-    return `
-    linear-gradient(${deg}deg, 
-      rgba(${first.red}, ${first.green}, ${first.blue}, 0.7) 0%, 
-      rgba(${second.red}, ${second.green}, ${second.blue}, 0.7) 100%
-  `
+    const pastelize = (v: number, s = 0.5) => Math.round(v + (255 - v) * s)
+
+    const pastelFirst = {
+      red: pastelize(first.red),
+      green: pastelize(first.green),
+      blue: pastelize(first.blue)
+    }
+
+    const pastelSecond = {
+      red: pastelize(second.red),
+      green: pastelize(second.green),
+      blue: pastelize(second.blue)
+    }
+
+    const gradient = `linear-gradient(${deg}deg, 
+  rgba(${pastelFirst.red}, ${pastelFirst.green}, ${pastelFirst.blue}, 0.8) 0%, 
+  rgba(${pastelSecond.red}, ${pastelSecond.green}, ${pastelSecond.blue}, 0.8) 100%)`
+
+    return gradient
   }, [colors])
 
   return { gradient }
