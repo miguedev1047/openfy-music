@@ -18,8 +18,8 @@ export function Themes() {
       <CardContent>
         <div className="w-full grid grid-cols-2 gap-4">
           <div className="flex items-center gap-1">
-            <ThemeSelector />
             <ModeToggle />
+            <ThemeSelector />
           </div>
         </div>
       </CardContent>
