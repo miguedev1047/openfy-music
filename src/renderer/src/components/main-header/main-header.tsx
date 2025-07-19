@@ -4,7 +4,7 @@ import { DevAudioInfo } from '@renderer/components/dev-audio-info'
 import { SearchInput } from '@renderer/components/search-input'
 import { Box } from '@renderer/components/ui/box'
 import { Link, useLocation } from '@tanstack/react-router'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
+import { DownloadMusicButton } from '../download-music'
 
 export function MainHeader() {
   const onClose = () => window.api.windowClose()
@@ -29,34 +29,27 @@ export function MainHeader() {
 
         <SearchInput />
 
-        <TooltipProvider>
-          <nav className="flex flex-1 grow basis-0 items-center justify-end gap-1 [&>*]:app-region-none">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button size="icon" asChild>
-                  <Link to="/config" viewTransition={{ types: ['fade'] }}>
-                    <Settings />
-                  </Link>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Configuraciones</p>
-              </TooltipContent>
-            </Tooltip>
+        <nav className="flex flex-1 grow basis-0 items-center justify-end gap-1 [&>*]:app-region-none">
+          <DownloadMusicButton />
 
-            <Button size="icon" onClick={onMinimize}>
-              <Minus />
-            </Button>
+          <Button size="icon" asChild>
+            <Link to="/config" viewTransition={{ types: ['fade'] }}>
+              <Settings />
+            </Link>
+          </Button>
 
-            <Button size="icon" onClick={toggleMaximize}>
-              <Maximize />
-            </Button>
+          <Button size="icon" onClick={onMinimize}>
+            <Minus />
+          </Button>
 
-            <Button size="icon" onClick={onClose}>
-              <X />
-            </Button>
-          </nav>
-        </TooltipProvider>
+          <Button size="icon" onClick={toggleMaximize}>
+            <Maximize />
+          </Button>
+
+          <Button size="icon" onClick={onClose}>
+            <X />
+          </Button>
+        </nav>
       </header>
     </Box>
   )
