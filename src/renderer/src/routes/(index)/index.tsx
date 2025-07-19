@@ -1,7 +1,7 @@
 import { ErrorComponentProps, createFileRoute } from '@tanstack/react-router'
 import { SongList } from '@renderer/routes/(index)/-components/song-list'
 import { SongPreview } from '@renderer/components/song-preview'
-import { OpenFolderButton } from '@renderer/components/open-folder-button'
+import { OpenPlaylistFolderButton } from '@renderer/components/open-playlist-button'
 import { Box } from '@renderer/components/ui/box'
 import { configQueryOpts } from '@renderer/queries/use-query-data'
 import { PlaylistManager } from '@renderer/components/playlist-manager/playlist-manager'
@@ -38,7 +38,7 @@ function IndexComponent() {
         <Box className="flex items-center gap-2 p-4">
           <PlaylistManager />
           <DialogAddPlaylist />
-          <OpenFolderButton />
+          <OpenPlaylistFolderButton />
         </Box>
 
         <DownloadMusicPreview />
