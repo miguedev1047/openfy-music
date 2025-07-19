@@ -3,13 +3,14 @@ import { SongList } from '@renderer/routes/(index)/-components/song-list'
 import { SongPreview } from '@renderer/components/song-preview'
 import { OpenFolderButton } from '@renderer/components/open-folder-button'
 import { Box } from '@renderer/components/ui/box'
-import { dataConfigOpts } from '@renderer/queries/use-query-data'
+import { configQueryOpts } from '@renderer/queries/use-query-data'
 import { PlaylistManager } from '@renderer/components/playlist-manager/playlist-manager'
 import { DialogAddPlaylist } from '@renderer/components/playlist-manager/playlist-options'
+import { DownloadMusicPreview } from '@renderer/components/download-music'
 
 export const Route = createFileRoute('/(index)/')({
   loader: ({ context }) => {
-    return context.queryClient.ensureQueryData(dataConfigOpts)
+    return context.queryClient.ensureQueryData(configQueryOpts)
   },
   errorComponent: ({ reset }: ErrorComponentProps) => {
     return (
@@ -32,13 +33,16 @@ export const Route = createFileRoute('/(index)/')({
 
 function IndexComponent() {
   return (
-    <div className="flex flex-1 items-center gap-2 overflow-y-auto [view-transition-name:main-content]">
+    <div className="flex flex-1 items-center gap-2 overflow-y-auto">
       <div className="h-full flex flex-1 flex-col gap-2">
         <Box className="flex items-center gap-2 p-4">
           <PlaylistManager />
           <DialogAddPlaylist />
           <OpenFolderButton />
         </Box>
+
+        <DownloadMusicPreview />
+
         <SongList />
       </div>
 
