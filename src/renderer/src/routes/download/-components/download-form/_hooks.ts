@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { finalYoutubeURL } from '@renderer/helpers/final-url'
 import { showNotification } from '@renderer/helpers/show-notification'
+import { useDependencies } from '@renderer/queries/use-query-dependecies'
 import { useDownloadManager } from '@renderer/store/use-download-manager'
 import { usePlaylistActiveStore } from '@renderer/store/use-playlist-manager-store'
 import { downloadMusicMP3, DownloadMusicMP3 } from '@schemas/index'
@@ -58,11 +59,16 @@ export function useDownloadForm() {
     }
   })
 
-  return {
-    form,
-    canSubmit,
-    isPending,
-    isDownloading,
-    onSubmit
-  }
+  return { form, canSubmit, isPending, isDownloading, onSubmit }
+}
+
+export function useCheckDependencies() {
+  const dependenciesQuery = useDependencies()
+  const dependency = dependenciesQuery.data
+
+  const hasDependencies = dependency && Object.keys(dependency).length > 0
+
+  const handleOpenDependecyFolder = () => window.api.openBinFolder()
+
+  return { dependenciesQuery, dependency, handleOpenDependecyFolder, hasDependencies }
 }
