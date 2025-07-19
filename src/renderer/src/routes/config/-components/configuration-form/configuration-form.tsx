@@ -35,8 +35,9 @@ import { Button } from '@renderer/components/ui/button'
 import { toast } from 'sonner'
 import { Switch } from '@renderer/components/ui/switch'
 import { useQueryClient } from '@tanstack/react-query'
+import { AlertDependency } from '../alert-dependency'
 
-export function Configuration() { 
+export function ConfigurationForm() {
   const queryClient = useQueryClient()
 
   const configQuery = useConfig()
@@ -79,13 +80,9 @@ export function Configuration() {
         <CardTitle>Configuración</CardTitle>
         <CardDescription>Configura tus preferencias de Openfy Music.</CardDescription>
       </CardHeader>
-      <CardContent className='grid grid-cols-2'>
+      <CardContent className="grid grid-cols-2 gap-6">
         <Form {...form}>
-          <form
-            id="update-folder-form"
-            onSubmit={onSubmit}
-            className="w-full grid gap-6"
-          >
+          <form id="update-folder-form" onSubmit={onSubmit} className="w-full grid gap-6">
             <FormField
               control={form.control}
               name="defaulFolder"
@@ -121,23 +118,29 @@ export function Configuration() {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="allowTyDLPDownloads"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between gap-4">
-                  <div className="space-y-2">
-                    <FormLabel>Permitir descargas por YT-DLP</FormLabel>
-                    <FormDescription>
-                      Esto habilita el poder descargar canciones a mp3 desde Youtube
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+            <div className="space-y-2">
+              <FormField
+                control={form.control}
+                name="allowTyDLPDownloads"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between gap-4">
+                    <div className="space-y-2">
+                      <FormLabel>Permitir descargas por YT-DLP</FormLabel>
+
+                      <div className="space-y-2">
+                        <FormDescription>
+                          Esto habilita el poder descargar canciones a mp3 desde Youtube.
+                        </FormDescription>
+                      </div>
+                    </div>
+                    <FormControl>
+                      <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <AlertDependency />
+            </div>
           </form>
         </Form>
       </CardContent>
