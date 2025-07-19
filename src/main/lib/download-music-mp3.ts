@@ -1,10 +1,9 @@
-import ffmpegPath from 'ffmpeg-static'
-
-import { DownloadMusicProps } from '../../shared/models'
 import { join } from 'path'
-import { playListsDir } from '../constants'
 import { BrowserWindow } from 'electron'
+import { DownloadMusicProps } from '../../shared/models'
+import { playListsDir } from '../constants'
 import { YTDlpWrapInstance } from '../helpers/yt-dlp'
+import { ffmpegPath } from '../helpers/utils'
 
 export function DownloadMusicMP3({ folder, url }: DownloadMusicProps) {
   return new Promise((resolve, reject) => {
@@ -17,7 +16,7 @@ export function DownloadMusicMP3({ folder, url }: DownloadMusicProps) {
       '--embed-thumbnail',
       '--add-metadata',
       '--ffmpeg-location',
-      ffmpegPath || 'ffmpeg.exe',
+      ffmpegPath,
       '--add-header',
       'referer:youtube.com',
       '--add-header',
@@ -35,9 +34,11 @@ export function DownloadMusicMP3({ folder, url }: DownloadMusicProps) {
         win?.webContents.send('download-progress', progress.percent || 0)
       })
       .on('error', (err) => {
+        console.log(`❌ Error al descargar: ${err}`)
         reject(err)
       })
       .on('close', () => {
+        console.log('✅ Descarga completa')
         resolve('✅ Descarga completa')
       })
   })
