@@ -1,5 +1,6 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
 import {
+  CheckBinariesProps,
   DownloadMusicProps,
   PlaylistFolderProps,
   RemoveSongProps,
@@ -22,12 +23,13 @@ declare global {
       removeSong: (data: RemoveSongProps) => Promise<void>
       renamePlaylist: (data: RenamePlaylistFolderProps) => Promise<void>
       readSong: (filename: string) => Promise<string>
-      openSongFolder: (playlistName: string) => Promise<void>
+      openPlaylistFolder: (playlistName: string) => Promise<void>
+      openBinFolder: () => Promise<void>
       windowClose: () => Promise<void>
       windowMinimize: () => Promise<void>
       toggleMaximize: () => Promise<void>
       downloadMusicMP3: (data: DownloadMusicProps) => Promise<void>
-      onDownloadProgress: (callback: (percent: number) => void) => void
+      checkBinaries: () => Promise<CheckBinariesProps>
     }
   }
 }

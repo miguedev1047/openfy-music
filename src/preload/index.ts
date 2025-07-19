@@ -32,14 +32,14 @@ const api = {
   windowClose: () => ipcRenderer.send('window-close'),
   windowMinimize: () => ipcRenderer.send('window-minimize'),
   toggleMaximize: () => ipcRenderer.send('window-maximize'),
-  openSongFolder: (...args: Parameters<OpenFolder>) =>
-    ipcRenderer.send('open-song-folder', ...args),
+  openPlaylistFolder: (...args: Parameters<OpenFolder>) =>
+    ipcRenderer.send('open-playlist-folder', ...args),
+  openBinFolder: () => ipcRenderer.send('open-bin-folder'),
 
   downloadMusicMP3: (...args: Parameters<DownloadMusic>) =>
     ipcRenderer.invoke('download-music-mp3', ...args),
-  onDownloadProgress: (callback: (percent: number) => void) => {
-    ipcRenderer.on('download-progress', (_event, percent) => callback(percent))
-  },
+
+  checkBinaries: () => ipcRenderer.invoke('check-binaries')
 }
 
 if (process.contextIsolated) {
