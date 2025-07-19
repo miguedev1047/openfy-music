@@ -10,6 +10,7 @@ export function AudioPlayer() {
   const lastUpdateRef = useRef(0)
 
   const { audioRef } = useAudioRef()
+
   const { onPlaySong } = usePlaySong()
   const { onNextSong } = useNextButton()
 
@@ -55,7 +56,7 @@ export function AudioPlayer() {
       onTimeUpdate={handleTimeUpdate}
       onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
       onEnded={onNextSong}
-      className='hidden sr-only'
+      className="hidden sr-only"
       autoPlay
     />
   )

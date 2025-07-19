@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DownloadIndexRouteImport } from './routes/download/index'
 import { Route as ConfigIndexRouteImport } from './routes/config/index'
 import { Route as indexIndexRouteImport } from './routes/(index)/index'
 import { Route as SongSrcRouteImport } from './routes/song/$src'
 
+const DownloadIndexRoute = DownloadIndexRouteImport.update({
+  id: '/download/',
+  path: '/download/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ConfigIndexRoute = ConfigIndexRouteImport.update({
   id: '/config/',
   path: '/config/',
@@ -33,34 +39,45 @@ export interface FileRoutesByFullPath {
   '/song/$src': typeof SongSrcRoute
   '/': typeof indexIndexRoute
   '/config': typeof ConfigIndexRoute
+  '/download': typeof DownloadIndexRoute
 }
 export interface FileRoutesByTo {
   '/song/$src': typeof SongSrcRoute
   '/': typeof indexIndexRoute
   '/config': typeof ConfigIndexRoute
+  '/download': typeof DownloadIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/song/$src': typeof SongSrcRoute
   '/(index)/': typeof indexIndexRoute
   '/config/': typeof ConfigIndexRoute
+  '/download/': typeof DownloadIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/song/$src' | '/' | '/config'
+  fullPaths: '/song/$src' | '/' | '/config' | '/download'
   fileRoutesByTo: FileRoutesByTo
-  to: '/song/$src' | '/' | '/config'
-  id: '__root__' | '/song/$src' | '/(index)/' | '/config/'
+  to: '/song/$src' | '/' | '/config' | '/download'
+  id: '__root__' | '/song/$src' | '/(index)/' | '/config/' | '/download/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   SongSrcRoute: typeof SongSrcRoute
   indexIndexRoute: typeof indexIndexRoute
   ConfigIndexRoute: typeof ConfigIndexRoute
+  DownloadIndexRoute: typeof DownloadIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/download/': {
+      id: '/download/'
+      path: '/download'
+      fullPath: '/download'
+      preLoaderRoute: typeof DownloadIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/config/': {
       id: '/config/'
       path: '/config'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   SongSrcRoute: SongSrcRoute,
   indexIndexRoute: indexIndexRoute,
   ConfigIndexRoute: ConfigIndexRoute,
+  DownloadIndexRoute: DownloadIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

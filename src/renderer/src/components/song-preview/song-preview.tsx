@@ -8,7 +8,7 @@ import { MusicIcon } from 'lucide-react'
 
 export function SongPreview() {
   return (
-    <Box className="relative w-[340px] h-full p-4 overflow-hidden">
+    <Box className="relative md:w-[340px] xl:w-[400px] h-full p-4 overflow-hidden">
       <SongDetails />
       <SongAudioLines />
     </Box>
@@ -37,7 +37,7 @@ export function SongDetails() {
       <Link
         to="/song/$src"
         params={{ src: selectedSong.src }}
-        viewTransition={{ types: ['fade'] }}
+        viewTransition
         className="w-full h-auto rounded-2xl z-10"
       >
         <SongImage
@@ -60,7 +60,8 @@ export function SongAudioLines() {
   const isPlaying = usePlayerStore((state) => state.isPlaying)
 
   return (
-    <div className="w-[90%] h-auto mx-auto opacity-50 absolute bottom-0 translate-y-[50%] text-primary flex items-center">
+    <div className="w-full inset-x-0 bottom-0 translate-y-[50%] h-auto mx-auto opacity-50 absolute  text-primary flex items-center">
+     
       {[...Array(2)].map((_, index) => (
         <AnimateIcon key={index} loop animate={isPlaying}>
           <AudioLines className="size-full" />

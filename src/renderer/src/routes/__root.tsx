@@ -5,8 +5,8 @@ import { Button } from '@renderer/components/ui/button'
 import { QueryClient } from '@tanstack/react-query'
 import { Toaster } from '@renderer/components/ui/sonner'
 import { MainHeader } from '@renderer/components/main-header'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+// import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { PlaylistInitializer } from '@renderer/components/playlist-initializer'
 
 export const Route = createRootRouteWithContext<{
@@ -48,8 +48,8 @@ export function RootWrappers({ children }: { children: React.ReactNode }) {
       </PlaylistInitializer>
 
       <Toaster position="top-center" richColors />
-      <ReactQueryDevtools />
-      <TanStackRouterDevtools />
+      {/* <ReactQueryDevtools /> */}
+      {/* <TanStackRouterDevtools /> */}
     </>
   )
 }

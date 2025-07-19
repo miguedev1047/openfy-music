@@ -12,13 +12,16 @@ export function usePlayButton() {
   const setIsPlaying = usePlayerStore((state) => state.setIsPlaying)
 
   const handlePlayPause = () => {
-    if (!audioRef.current) return
+    const audio = audioRef.current
+    if (!audio) return
 
-    if (audioRef.current.paused) {
-      audioRef.current.play()
+    const isPaused = audio.paused
+
+    if (isPaused) {
+      audio.play()
       setIsPlaying(false)
     } else {
-      audioRef.current.pause()
+      audio.pause()
       setIsPlaying(true)
     }
   }

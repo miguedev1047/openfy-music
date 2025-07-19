@@ -17,9 +17,5 @@ export const useAudioRef = () => {
 export function AudioRefProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
-  return (
-    <AudioRefContext.Provider value={{ audioRef }}>
-      {children}
-    </AudioRefContext.Provider>
-  )
+  return <AudioRefContext.Provider value={{ audioRef }}>{children}</AudioRefContext.Provider>
 }
