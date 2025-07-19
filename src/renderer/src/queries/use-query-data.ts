@@ -6,9 +6,9 @@ export const getConfig = async () => {
   return data
 }
 
-export const dataConfigOpts = queryOptions({
+export const configQueryOpts = queryOptions({
   queryKey: ['config'],
   queryFn: getConfig,
 })
 
-export const useConfig = () => useSuspenseQuery(dataConfigOpts)
+export const useConfig = () => useSuspenseQuery(configQueryOpts)
