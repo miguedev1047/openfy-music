@@ -18,23 +18,7 @@ import { DialogRemovePlaylist, DialogRenamePlaylist, PlaylistOptions } from './p
 import { useConfig } from '@renderer/queries/use-query-data'
 
 export function PlaylistFolders() {
-  const configDataQuery = useConfig()
-  const configData = configDataQuery.data
-
-  const playlistFoldersQuery = useQuery(playlistsFoldersQueryOptions)
-  const playlistFolders = playlistFoldersQuery.data ?? []
-
-  const activePlaylist = usePlaylistActiveStore((state) => state.activePlaylist)
-  const setActivePlaylist = usePlaylistActiveStore((state) => state.setActivePlaylist)
-
-  const setIsOpen = usePlaylistActionsStore((state) => state.setIsOpen)
   const selectedManagerOption = usePlaylistActionsStore((state) => state.selectedAction)
-
-  const onChangeFolder = (value: string) => {
-    const folder = playlistFolders.find((folder) => folder.playlist === value)
-    if (!folder) return
-    setActivePlaylist(value)
-  }
 
   const DialogContent = () => {
     switch (selectedManagerOption) {
@@ -47,11 +31,46 @@ export function PlaylistFolders() {
     }
   }
 
-  const FOLDER_ITEMS = playlistFolders.map((folder) => {
+  return (
+    <AlertDialog>
+      <Command>
+        <CommandInput placeholder="Busca una playlist..." />
+        <CommandList className="scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-(--radius)">
+          <CommandEmpty>No hay playlists disponibles.</CommandEmpty>
+          <CommandGroup>
+            <PlaylistFolderList />
+          </CommandGroup>
+        </CommandList>
+      </Command>
+      
+      <DialogContent />
+    </AlertDialog>
+  )
+}
+
+export function PlaylistFolderList() {
+  const configDataQuery = useConfig()
+  const configData = configDataQuery.data
+
+  const playlistFoldersQuery = useQuery(playlistsFoldersQueryOptions)
+  const playlistFolders = playlistFoldersQuery.data ?? []
+
+  const activePlaylist = usePlaylistActiveStore((state) => state.activePlaylist)
+  const setActivePlaylist = usePlaylistActiveStore((state) => state.setActivePlaylist)
+
+  const setIsOpen = usePlaylistActionsStore((state) => state.setIsOpen)
+
+  return playlistFolders.map((folder) => {
     const isChecked = activePlaylist === folder.playlist
     const isDefaultPlaylist = folder.playlist === configData.defaultFolder
 
     const Checked = () => (isChecked ? <Check size={16} className="absolute left-2" /> : null)
+
+    const onChangeFolder = (value: string) => {
+      const folder = playlistFolders.find((folder) => folder.playlist === value)
+      if (!folder) return
+      setActivePlaylist(value)
+    }
 
     const onSelectFolder = (value: string) => {
       onChangeFolder(value === activePlaylist ? '' : value)
@@ -79,17 +98,4 @@ export function PlaylistFolders() {
       </CommandItem>
     )
   })
-
-  return (
-    <AlertDialog>
-      <Command>
-        <CommandInput placeholder="Busca una playlist..." />
-        <CommandList className="scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-(--radius)">
-          <CommandEmpty>No hay playlists disponibles.</CommandEmpty>
-          <CommandGroup>{FOLDER_ITEMS}</CommandGroup>
-        </CommandList>
-      </Command>
-      <DialogContent />
-    </AlertDialog>
-  )
 }
