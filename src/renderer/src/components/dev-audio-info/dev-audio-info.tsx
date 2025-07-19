@@ -62,11 +62,11 @@ export function SelecetdSongData() {
       </CardHeader>
       <CardContent className="grid gap-2 text-sm">
         <div className="flex justify-between">
-          <span className="text-muted-foreground">Duración</span>
+          <span>Duración</span>
           <span>{formatDurationPlayer(stateSelectedSong?.duration || 0)}</span>
         </div>
         <div className="flex flex-col w-full overflow-auto">
-          <span className="text-muted-foreground">Fuente</span>
+          <span>Fuente</span>
           <span className="truncate font-mono text-xs ">{stateSelectedSong?.src}</span>
         </div>
       </CardContent>
@@ -86,7 +86,7 @@ export function RealtimeData() {
       </CardHeader>
       <CardContent className="grid gap-4 text-sm">
         <div className="flex items-center justify-between">
-          <span className="text-muted-foreground">Estado</span>
+          <span>Estado</span>
           <Badge variant={stateAudio.isPlaying ? 'default' : 'secondary'}>
             {stateAudio.isPlaying ? 'Reproduciendo' : 'Pausado'}
           </Badge>
@@ -106,7 +106,7 @@ export function RealtimeData() {
           </div>
         </div>
         <div className="flex justify-between">
-          <span className="text-muted-foreground">Volumen</span>
+          <span>Volumen</span>
           <span>{Math.round(audioOpts.volume * 100)}%</span>
         </div>
       </CardContent>
