@@ -8,7 +8,7 @@ export const Route = createFileRoute('/song/$src')({
 
 function RouteComponent() {
   return (
-    <Box className="size-full grid place-items-center p-4 flex-1 flex-col [view-transition-name:main-content] relative overflow-hidden">
+    <Box className="size-full grid place-items-center p-4 flex-1 flex-col relative overflow-hidden">
       <SongView />
     </Box>
   )
