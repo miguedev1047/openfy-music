@@ -9,7 +9,6 @@ export const getPlaylists = async () => {
 export const playlistsFoldersQueryOptions = queryOptions({
   queryKey: ['playlists'],
   queryFn: getPlaylists,
-  refetchInterval: 5000
 })
 
 export const usePlaylistFolders = () => useQuery(playlistsFoldersQueryOptions)
