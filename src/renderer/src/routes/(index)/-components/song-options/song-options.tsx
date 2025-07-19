@@ -21,30 +21,41 @@ import { Ellipsis, Trash2 } from 'lucide-react'
 import { useQueryClient } from '@tanstack/react-query'
 import { useSelectedSongStore } from '@renderer/store/use-player-store'
 import { toast } from 'sonner'
+import { usePlaylistActiveStore } from '@renderer/store/use-playlist-manager-store'
+import { SongItemProps } from '@shared/models'
 
-export function SongOptions() {
+export function SongOptions(props: SongItemProps) {
+  const { filename, id } = props
+
   const queryClient = useQueryClient()
   const selectedSong = useSelectedSongStore((state) => state.selectedSong)
 
+  const activePlaylist = usePlaylistActiveStore((state) => state.activePlaylist)
+
   const onPreventClick = (e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()
 
-  const onDeleteSong = async () => {
+  const onRemoveSong = async () => {
     try {
       if (!selectedSong) {
-        toast.error('Esta cancion no se podido encontrar')
+        toast.error('No hay ninguna canción seleccionada')
         return
       }
 
-      // await window.api.removeSong({
-      //   songHashId: selectedSong.id,
-      //   filename: selectedSong.src
-      // })
+      if (selectedSong.id === id) {
+        toast.error('No puedes eliminar la canción que estas reproduciendo')
+        return
+      }
 
-      toast.success('Cancion eliminada!')
+      await window.api.removeSong({
+        id: id,
+        filename: filename,
+        playlist: activePlaylist
+      })
 
+      toast.success('Canción eliminada')
       queryClient.invalidateQueries({ queryKey: ['songs'] })
     } catch {
-      toast.error('Error al eliminar la cancion')
+      toast.error('Error al eliminar la canción')
     }
   }
 
@@ -52,11 +63,9 @@ export function SongOptions() {
     <AlertDialog>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <div className="absolute left-4 inset-y-0 flex items-center h-full z-10">
-            <Button size="icon">
-              <Ellipsis />
-            </Button>
-          </div>
+          <Button size="icon" variant="ghost">
+            <Ellipsis />
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent onClick={onPreventClick} side="left">
           <DropdownMenuLabel>Opciones</DropdownMenuLabel>
@@ -78,7 +87,7 @@ export function SongOptions() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <AlertDialogAction onClick={onDeleteSong}>Eliminar</AlertDialogAction>
+          <AlertDialogAction onClick={onRemoveSong}>Eliminar</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

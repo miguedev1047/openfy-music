@@ -9,6 +9,7 @@ import { Play } from 'lucide-react'
 import { AnimateIcon } from '@renderer/components/animate-ui/icons/icon'
 import { AudioLines } from '@renderer/components/animate-ui/icons/audio-lines'
 import { Box } from '@renderer/components/ui/box'
+import { SongOptions } from '../song-options'
 
 export function useSongItem(props: SongItemProps) {
   const { artist, duration, src, title, pic, index } = props
@@ -92,7 +93,10 @@ export function SongItem(props: SongItemProps) {
           <p className="text-[12px]">{artist}</p>
         </div>
 
-        <p className="font-bold text-sm">{formatDurationPlayer(duration)}</p>
+        <div className='flex items-center gap-3'>
+          <p className="font-bold text-sm">{formatDurationPlayer(duration)}</p>
+          <SongOptions {...props}/>
+        </div>
       </div>
     </Box>
   )
