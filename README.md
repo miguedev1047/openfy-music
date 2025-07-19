@@ -41,9 +41,13 @@ Un reproductor de música MP3 minimalista y personalizable, enfocado en una expe
 
 ---
 
-## 🛡️ Aviso de responsabilidad
-Este software se proporciona con fines educativos y personales. No se responsabiliza del uso indebido relacionado con la descarga de contenido con copyright.
+# 🛡️ Aviso de responsabilidad
+El uso de la función de descarga es **responsabilidad del usuario**.
 
+Este reproductor actúa como una **interfaz gráfica** para herramientas de código abierto como `yt-dlp` y `ffmpeg`.
+
+Asegúrate de **cumplir con las leyes de derechos de autor** en tu país.
+  
 ---
 
 ## Imagenes
