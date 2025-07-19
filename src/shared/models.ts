@@ -14,6 +14,11 @@ export interface DownloadMusicProps {
   folder: string
 }
 
+export interface CheckBinariesProps {
+    ffmpeg: boolean;
+    ytdlp: boolean;
+}
+
 export interface SongProps {
   title: string
   src: string
