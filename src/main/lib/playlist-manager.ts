@@ -6,7 +6,7 @@ import { parseFile } from 'music-metadata'
 
 import { PlaylistFolderProps, RenamePlaylistFolderProps, SongProps } from '../../shared/models'
 
-import { filterByExtension } from '../helpers/utils'
+import { filterByExtension, removeExtension } from '../helpers/utils'
 import { generateSongIdFromMetadata } from '../helpers/genertate-song-hash'
 import { saveBase64Image } from '../helpers/save-base64-image'
 
@@ -82,9 +82,11 @@ export async function getSongPlaylistByPath(
   const finalData = {
     pic,
     id,
-    title: metadata.common.title || filename,
+    title: metadata.common.title || removeExtension(filename),
+    filename: filename,
     src: fileSource,
-    artist: metadata.common.artist || 'Unknown Artist',
+    artist: metadata.common.artist || 'Artista Desconocido',
+    album: metadata.common.album || 'Album Desconocido',
     duration: metadata.format.duration || 0,
     birthtime: stats.birthtime
   }
