@@ -40,17 +40,26 @@ export function useDownloadForm() {
       toast.success('Descarganda completa con exito')
     } catch (error) {
       if (error instanceof Error) {
-        const msg = error.message.toLowerCase()
-        const errorKey = 'youtube said'
+        const message = error.message.toLowerCase()
 
-        if (msg.includes(errorKey)) {
+        if (message.includes('invalid url')) {
+          toast.error('La URL es inválida.')
+          return
+        }
+
+        if (message.includes('youtube said')) {
           toast.warning(
-            'La cancion(es) se descargó parcialmente. Algunos videos eran privados o no disponibles.'
+            'La canción se descargó parcialmente. Algunos videos eran privados o no estaban disponibles.'
           )
           return
         }
 
-        toast.error('Ha ocurrdo un error al descargar las cancion(es). Intenta de nuevo.')
+        if (message.includes('drm')) {
+          toast.error('El contenido está protegido por DRM y no se puede descargar.')
+          return
+        }
+
+        toast.error('Ocurrió un error al descargar la(s) canción(es). Intenta de nuevo.')
       }
     } finally {
       setIsDownloading(false)
