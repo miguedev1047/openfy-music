@@ -43,7 +43,6 @@ export function DownloadForm() {
       <div className="size-full flex items-center justify-center">
         <div className="flex flex-col gap-2">
           <LoadingState2 message="Estamos descargando tu cancion(es)" />
-
           <Button asChild>
             <Link to="/">Volver</Link>
           </Button>
@@ -58,9 +57,9 @@ export function DownloadForm() {
         <CardTitle>Descargar canciones</CardTitle>
         <CardDescription>Ingresa la url de la canción o playlist de Youtube</CardDescription>
       </CardHeader>
-      <CardContent className="grid grid-cols-2">
+      <CardContent className="grid grid-cols-2 gap-6">
         <Form {...form}>
-          <form id="download-music-form" onSubmit={onSubmit} className="w-full grid gap-6">
+          <form id="download-music-form" onSubmit={onSubmit} className="flex-1 grid gap-6">
             <FormField
               control={form.control}
               name="url"
@@ -76,9 +75,7 @@ export function DownloadForm() {
                       />
                     </FormControl>
                   </div>
-
                   <FormMessage />
-
                   <FormDescription>Ingresa la url de la canción de Youtube</FormDescription>
                 </FormItem>
               )}
@@ -108,9 +105,7 @@ export function DownloadForm() {
                       </SelectGroup>
                     </SelectContent>
                   </Select>
-
                   <FormMessage />
-
                   <FormDescription>
                     Dependiendo del modo seleccionado se descargara la playlist o solo la canción.
                   </FormDescription>
@@ -138,9 +133,7 @@ export function DownloadForm() {
                       </SelectGroup>
                     </SelectContent>
                   </Select>
-
                   <FormMessage />
-
                   <FormDescription>
                     La playlist que escojas sera donde se descargaran las canciones.
                   </FormDescription>
