@@ -11,7 +11,9 @@ import {
   ReadSong,
   RemovePlaylist,
   RenamePlaylist,
-  UpdateConfigData
+  UpdateConfigData,
+  DownloadMusic,
+  RemoveSong
 } from '../shared/types'
 
 import {
@@ -27,11 +29,12 @@ import {
   renamePlaylist
 } from './lib/playlist-manager'
 import { openSongFolder } from './lib/open-song-folder'
-import { readSong } from './lib/song-manager'
+import { readSong, removeSong } from './lib/song-manager'
 
 import { localResource } from './helpers/local-resource'
 import { ensureDefaultPlaylistsFolders } from './utils/default-folder'
 import { ensureJsonConfig, getConfigData, updateConfigData } from './utils/config-data'
+import { DownloadMusicMP3 } from './lib/download-music-mp3'
 
 const gotTheLock = app.requestSingleInstanceLock()
 
@@ -133,6 +136,7 @@ app.whenReady().then(() => {
   ipcMain.handle('remove-playlist', (_event, ...args: Parameters<RemovePlaylist>) =>
     removePlaylist(...args)
   )
+  ipcMain.handle('remove-song', (_event, ...args: Parameters<RemoveSong>) => removeSong(...args))
   ipcMain.handle('rename-playlist', (_event, ...args: Parameters<RenamePlaylist>) =>
     renamePlaylist(...args)
   )
@@ -142,6 +146,10 @@ app.whenReady().then(() => {
   ipcMain.on('window-maximize', () => toggleMaximizeWindow())
   ipcMain.on('open-song-folder', (_event, ...args: Parameters<OpenFolder>) =>
     openSongFolder(...args)
+  )
+
+  ipcMain.handle('download-music-mp3', (_event, ...args: Parameters<DownloadMusic>) =>
+    DownloadMusicMP3(...args)
   )
 })
 
