@@ -5,6 +5,17 @@ export const DEFAULT_THEMES = [
   }
 ]
 
+export const DOWNLOAD_TYPES = [
+  {
+    value: 'playlist',
+    label: 'Playlist'
+  },
+  {
+    value: 'normal',
+    label: 'Solo la canción'
+  }
+]
+
 export const COLOR_THEMES = [
   {
     name: 'Azul',
