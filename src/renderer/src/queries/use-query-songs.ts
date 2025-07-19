@@ -9,7 +9,8 @@ export const getSongByPlaylist = async (playlistName: string) => {
 export const songsPlaylistsQueryOptions = (playlistName: string) =>
   queryOptions({
     queryKey: ['songs', playlistName],
-    queryFn: () => getSongByPlaylist(playlistName)
+    queryFn: () => getSongByPlaylist(playlistName),
+    refetchInterval: 5000
   })
 
 export const useSongsPlaylist = (playlistName: string) => {
