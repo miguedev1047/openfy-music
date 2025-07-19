@@ -5,7 +5,9 @@ import {
   NewPlaylist,
   RemovePlaylist,
   RenamePlaylist,
-  UpdateConfigData
+  UpdateConfigData,
+  DownloadMusic,
+  RemoveSong
 } from '../shared/types'
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
@@ -16,6 +18,7 @@ const api = {
     ipcRenderer.invoke('songs-playlist', ...args),
   removePlaylist: (...args: Parameters<RemovePlaylist>) =>
     ipcRenderer.invoke('remove-playlist', ...args),
+  removeSong: (...args: Parameters<RemoveSong>) => ipcRenderer.invoke('remove-song', ...args),
   renamePlaylist: (...args: Parameters<RenamePlaylist>) =>
     ipcRenderer.invoke('rename-playlist', ...args),
 
@@ -29,7 +32,14 @@ const api = {
   windowClose: () => ipcRenderer.send('window-close'),
   windowMinimize: () => ipcRenderer.send('window-minimize'),
   toggleMaximize: () => ipcRenderer.send('window-maximize'),
-  openSongFolder: (...args: Parameters<OpenFolder>) => ipcRenderer.send('open-song-folder', ...args)
+  openSongFolder: (...args: Parameters<OpenFolder>) =>
+    ipcRenderer.send('open-song-folder', ...args),
+
+  downloadMusicMP3: (...args: Parameters<DownloadMusic>) =>
+    ipcRenderer.invoke('download-music-mp3', ...args),
+  onDownloadProgress: (callback: (percent: number) => void) => {
+    ipcRenderer.on('download-progress', (_event, percent) => callback(percent))
+  },
 }
 
 if (process.contextIsolated) {
