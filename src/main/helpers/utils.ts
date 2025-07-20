@@ -3,6 +3,7 @@ import { binDir, EXTENSIONS } from '../constants'
 import { existsSync } from 'fs'
 
 export const ffmpegPath = getBinaryPath(process.platform === 'win32' ? 'ffmpeg.exe' : 'ffmpeg')
+export const ytdlpPath = getBinaryPath(process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp')
 
 export function filterByExtension(song: string) {
   return EXTENSIONS.some((extension) => song.endsWith(extension))
