@@ -20,7 +20,8 @@ export function getBinaryPath(name: string) {
   const binPath = join(binDir, name)
 
   if (!existsSync(binPath)) {
-    throw new Error(`❌ No se encontró el binario requerido: ${name} en la carpeta bin.`)
+    console.log(`❌ No se encontró el binario requerido: ${name} en la carpeta bin.`)
+    return
   }
 
   return binPath
