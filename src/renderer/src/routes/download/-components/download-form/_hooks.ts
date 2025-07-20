@@ -75,7 +75,7 @@ export function useCheckDependencies() {
   const dependenciesQuery = useDependencies()
   const dependency = dependenciesQuery.data
 
-  const hasDependencies = dependency && Object.keys(dependency).length > 0
+  const hasDependencies = !dependency?.ffmpeg || !dependency.ytdlp
 
   const handleOpenDependecyFolder = () => window.api.openBinFolder()
 

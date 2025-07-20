@@ -12,7 +12,7 @@ export function AlertDependency() {
   const dependencyQuery = useDependencies()
   const dependency = dependencyQuery.data
 
-  const hasDependencies = dependency && Object.keys(dependency).length > 0
+  const hasDependencies = !dependency?.ffmpeg || !dependency.ytdlp
 
   if (!config.allowTyDLPDownloads) return null
 
