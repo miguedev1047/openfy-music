@@ -9,6 +9,10 @@ export function DownloadMusicMP3({ folder, url }: DownloadMusicProps) {
   return new Promise((resolve, reject) => {
     const downloadPath = join(playListsDir, folder)
 
+    if (!ffmpegPath) {
+      throw new Error(`No se encontrarón las dependencias necesarias.`)
+    }
+
     const downloadArgs = [
       '--extract-audio',
       '--audio-format',
