@@ -28,7 +28,7 @@ export function RouteComponent() {
     return <ErrorState message="Error al leer las dependencias." />
   }
 
-  if (!hasDependencies) {
+  if (hasDependencies) {
     return (
       <Box className="size-full flex items-center justify-center">
         <div className="flex flex-col gap-2">

@@ -18,19 +18,20 @@ export function AlertDependency() {
 
   return (
     <Alert>
-      {hasDependencies ? <CheckIcon /> : <MessageCircleWarningIcon />}
-      <AlertTitle>{hasDependencies ? 'Todo listo' : 'Faltan dependencias'}</AlertTitle>
+      {!hasDependencies ? <CheckIcon /> : <MessageCircleWarningIcon />}
+      <AlertTitle>{!hasDependencies ? 'Todo listo' : 'Faltan dependencias'}</AlertTitle>
       <AlertDescription>
-        {hasDependencies && (
+        {!hasDependencies && (
           <span>
             Las dependencias necesarias han sido <Badge variant="secondary">detectadas</Badge>. No
             es necesario realizar ninguna acción.
           </span>
         )}
 
-        {!hasDependencies && (
+        {hasDependencies && (
           <span>
-            No se detectaron algunas dependencias <Badge variant="destructive">faltantes</Badge>.
+            No se detectaron algunas dependencias <Badge variant="destructive">faltantes</Badge>.{' '}
+            <br />
             Puedes descargarlas desde esta carpeta:{' '}
             <span
               className="text-primary hover:underline"
