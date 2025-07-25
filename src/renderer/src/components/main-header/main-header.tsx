@@ -18,7 +18,7 @@ export function MainHeader() {
     <Box className="app-region p-4">
       <header data-area="save-area" className="flex items-center justify-between w-full gap-8">
         <nav className="flex flex-1  grow basis-0 justify-start items-center gap-1 [&>*]:app-region-none">
-          <Button size="icon" asChild>
+          <Button size="icon" variant="outline" asChild>
             <Link to="/" viewTransition={{ types: ['fade'] }}>
               {isInHome ? <ChevronLeft /> : <Music />}
             </Link>
@@ -32,21 +32,21 @@ export function MainHeader() {
         <nav className="flex flex-1 grow basis-0 items-center justify-end gap-1 [&>*]:app-region-none">
           <DownloadMusicButton />
 
-          <Button size="icon" asChild>
+          <Button size="icon" variant="outline" asChild>
             <Link to="/config" viewTransition={{ types: ['fade'] }}>
               <Settings />
             </Link>
           </Button>
 
-          <Button size="icon" onClick={onMinimize}>
+          <Button size="icon" variant="outline" onClick={onMinimize}>
             <Minus />
           </Button>
 
-          <Button size="icon" onClick={toggleMaximize}>
+          <Button size="icon" variant="outline" onClick={toggleMaximize}>
             <Maximize />
           </Button>
 
-          <Button size="icon" onClick={onClose}>
+          <Button size="icon" variant="outline" onClick={onClose}>
             <X />
           </Button>
         </nav>

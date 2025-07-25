@@ -29,7 +29,7 @@ export function DevAudioInfo() {
         <Popover>
           <PopoverTrigger asChild>
             <TooltipTrigger asChild>
-              <Button size="icon">
+              <Button size="icon" variant='outline'>
                 <InfoIcon />
               </Button>
             </TooltipTrigger>
