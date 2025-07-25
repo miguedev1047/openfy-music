@@ -3,6 +3,7 @@ import { Button } from '@renderer/components/ui/button'
 import { usePlayerStore, useSelectedSongStore } from '@renderer/store/use-player-store'
 import { useAudioRef } from '@renderer/providers/audio-ref-provider'
 import { Pause, Play } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export function usePlayButton() {
   const { audioRef } = useAudioRef()
@@ -30,6 +31,7 @@ export function usePlayButton() {
 }
 
 export function PlayButton() {
+  const { t } = useTranslation()
   const { handlePlayPause, selectedSong, isPlaying } = usePlayButton()
 
   return (
@@ -39,7 +41,7 @@ export function PlayButton() {
           {isPlaying ? <Pause /> : <Play />}
         </Button>
       </TooltipTrigger>
-      <TooltipContent>{isPlaying ? 'Pausar' : 'Reproducir'}</TooltipContent>
+      <TooltipContent>{isPlaying ? t('tooltips.paused') : t('tooltips.play')}</TooltipContent>
     </Tooltip>
   )
 }

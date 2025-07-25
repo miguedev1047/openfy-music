@@ -34,17 +34,19 @@ import { PlaylistFolderItems } from '@renderer/routes/download/-components/playl
 import { SidebarSeparator } from '@renderer/components/ui/sidebar'
 import { DOWNLOAD_TYPES } from '@shared/constants'
 import { Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 
 export function DownloadForm() {
+  const { t } = useTranslation()
   const { canSubmit, form, isDownloading, isPending, onSubmit } = useDownloadForm()
 
   if (isDownloading) {
     return (
       <div className="size-full flex items-center justify-center">
         <div className="flex flex-col gap-2">
-          <LoadingState2 message="Estamos descargando tu cancion(es)" />
+          <LoadingState2 message={t('download.downloadingMessage')} />
           <Button asChild>
-            <Link to="/">Volver</Link>
+            <Link to="/">{t('download.backButton')}</Link>
           </Button>
         </div>
       </div>
@@ -54,8 +56,8 @@ export function DownloadForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Descargar canciones</CardTitle>
-        <CardDescription>Ingresa la url de la canción o playlist de Youtube</CardDescription>
+        <CardTitle>{t('download.form.download.title')}</CardTitle>
+        <CardDescription>{t('download.form.download.description')}</CardDescription>
       </CardHeader>
       <CardContent className="grid grid-cols-2 gap-6">
         <Form {...form}>
@@ -65,18 +67,20 @@ export function DownloadForm() {
               name="url"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>URL de la canción</FormLabel>
+                  <FormLabel>{t('download.form.download.fields.url.title')}</FormLabel>
                   <div className="flex items-start gap-2">
                     <FormControl>
                       <Input
-                        placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                        placeholder={t('download.form.download.fields.url.placeholder')}
                         disabled={isPending}
                         {...field}
                       />
                     </FormControl>
                   </div>
                   <FormMessage />
-                  <FormDescription>Ingresa la url de la canción de Youtube</FormDescription>
+                  <FormDescription>
+                    {t('download.form.download.fields.url.description')}
+                  </FormDescription>
                 </FormItem>
               )}
             />
@@ -86,20 +90,20 @@ export function DownloadForm() {
               name="downloadType"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tipo de descarga</FormLabel>
+                  <FormLabel>{t('download.form.download.fields.type.title')}</FormLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Selecciona una opcion" />
+                      <SelectValue placeholder={t('download.form.download.fields.type.title')} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
                         <SelectLabel>
-                          <span>Descargar:</span>
+                          <span>{t('download.form.download.fields.type.selectorLabel')}</span>
                         </SelectLabel>
                         <SidebarSeparator />
                         {DOWNLOAD_TYPES.map((type) => (
                           <SelectItem key={type.value} value={type.value}>
-                            {type.label}
+                            {t(type.label)}
                           </SelectItem>
                         ))}
                       </SelectGroup>
@@ -107,7 +111,7 @@ export function DownloadForm() {
                   </Select>
                   <FormMessage />
                   <FormDescription>
-                    Dependiendo del modo seleccionado se descargara la playlist o solo la canción.
+                    {t('download.form.download.fields.type.description')}
                   </FormDescription>
                 </FormItem>
               )}
@@ -118,16 +122,24 @@ export function DownloadForm() {
               name="folder"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>Playlist de descarga</FormLabel>
+                  <FormLabel>
+                    {t('download.form.download.fields.destinationPlaylist.title')}
+                  </FormLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Selecciona una playlist de descarga" />
+                        <SelectValue
+                          placeholder={t(
+                            'download.form.download.fields.destinationPlaylist.placeholder'
+                          )}
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectLabel>Playlists</SelectLabel>
+                        <SelectLabel>
+                          {t('download.form.download.fields.destinationPlaylist.selectorLabel')}
+                        </SelectLabel>
                         <SelectSeparator />
                         <PlaylistFolderItems />
                       </SelectGroup>
@@ -135,7 +147,7 @@ export function DownloadForm() {
                   </Select>
                   <FormMessage />
                   <FormDescription>
-                    La playlist que escojas sera donde se descargaran las canciones.
+                    {t('download.form.download.fields.destinationPlaylist.description')}
                   </FormDescription>
                 </FormItem>
               )}
@@ -146,7 +158,7 @@ export function DownloadForm() {
       <CardFooter>
         <Button type="submit" disabled={!canSubmit} form="download-music-form">
           <DownloadIcon></DownloadIcon>
-          <span>Descargar</span>
+          <span>{t('download.form.submitButton')}</span>
         </Button>
       </CardFooter>
     </Card>

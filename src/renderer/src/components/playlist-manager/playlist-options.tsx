@@ -54,10 +54,12 @@ import { MouseEventProps } from './_types'
 import { PlaylistFolderProps } from '@shared/models'
 import { useState, useTransition } from 'react'
 import { useConfig } from '@renderer/queries/use-query-data'
+import { useTranslation } from 'react-i18next'
 
 const onPreventClick = (e: MouseEventProps) => e.stopPropagation()
 
 export function PlaylistOptions(props: PlaylistFolderProps) {
+  const { t } = useTranslation()
   const { playlist } = props
 
   const setSelectedAction = usePlaylistActionsStore((state) => state.setSelectedAction)
@@ -76,19 +78,19 @@ export function PlaylistOptions(props: PlaylistFolderProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent onClick={onPreventClick}>
-        <DropdownMenuLabel>Opciones</DropdownMenuLabel>
+        <DropdownMenuLabel>{t('playlistDialogs.optionsMenu.title')}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <AlertDialogTrigger asChild>
             <DropdownMenuItem onSelect={() => handleSelectOption('rename')}>
               <Pencil />
-              Renombrar
+              {t('playlistDialogs.optionsMenu.rename.label')}
             </DropdownMenuItem>
           </AlertDialogTrigger>
           <AlertDialogTrigger asChild>
             <DropdownMenuItem onSelect={() => handleSelectOption('remove')}>
               <Trash />
-              Eliminar
+              {t('playlistDialogs.optionsMenu.delete.label')}
             </DropdownMenuItem>
           </AlertDialogTrigger>
         </DropdownMenuGroup>
@@ -98,6 +100,7 @@ export function PlaylistOptions(props: PlaylistFolderProps) {
 }
 
 export function DialogRemovePlaylist() {
+  const { t } = useTranslation()
   const [isPending, startTransition] = useTransition()
   const queryClient = useQueryClient()
 
@@ -111,20 +114,20 @@ export function DialogRemovePlaylist() {
     startTransition(async () => {
       try {
         if (selectedManagerPlaylist === dataConfig.defaultFolder) {
-          toast.error('No puedes eliminar la playlist por defecto')
+          toast.error(t('playlistDialogs.optionsMenu.delete.toasts.errors.cannotDeleteDefault'))
           return
         }
 
         if (selectedManagerPlaylist === activePlaylist) {
-          toast.error('No puedes eliminar la playlist que estás viendo actualmente')
+          toast.error(t('playlistDialogs.optionsMenu.delete.toasts.errors.cannotDeleteCurrent'))
           return
         }
 
         await window.api.removePlaylist(selectedManagerPlaylist)
         queryClient.invalidateQueries(playlistsFoldersQueryOptions)
-        toast.success('Playlist eliminada con éxito')
+        toast.success(t('playlistDialogs.optionsMenu.delete.toasts.success.message'))
       } catch {
-        toast.error('Error al eliminar la playlist')
+        toast.error(t('playlistDialogs.optionsMenu.delete.toasts.errors.general'))
       }
     })
   }
@@ -132,16 +135,15 @@ export function DialogRemovePlaylist() {
   return (
     <AlertDialogContent>
       <AlertDialogHeader>
-        <AlertDialogTitle>Eliminar playlist</AlertDialogTitle>
+        <AlertDialogTitle>{t('playlistDialogs.optionsMenu.delete.title')}</AlertDialogTitle>
         <AlertDialogDescription>
-          ¿Deseas eliminar esta playlist? Esta acción es irreversible. Todas las canciones de esta
-          playlist serán eliminadas.
+          {t('playlistDialogs.optionsMenu.delete.description')}
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogCancel>Cancelar</AlertDialogCancel>
+        <AlertDialogCancel>{t('playlistDialogs.optionsMenu.delete.cancel')}</AlertDialogCancel>
         <AlertDialogAction disabled={isPending} onClick={handleDeletePlaylist}>
-          Confirmar
+          {t('playlistDialogs.optionsMenu.delete.confirm')}
         </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
@@ -149,6 +151,7 @@ export function DialogRemovePlaylist() {
 }
 
 export function DialogRenamePlaylist() {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
 
   const configQuery = useConfig()
@@ -173,7 +176,7 @@ export function DialogRenamePlaylist() {
       const newPlaylist = values.playlistName
 
       if (selectedManagerPlaylist === config.defaultFolder) {
-        toast.error('No puedes renombrar la playlist por defecto')
+        toast.error(t('playlistDialogs.optionsMenu.rename.toasts.errors.cannotRenameDefault'))
         return
       }
 
@@ -184,18 +187,18 @@ export function DialogRenamePlaylist() {
         setActivePlaylist(newPlaylist)
       }
       form.reset()
-      toast.success('El nombre de la playlist ha sido actualizado')
+      toast.success(t('playlistDialogs.optionsMenu.rename.toasts.success.message'))
     } catch {
-      toast.error('Error al cambiar el nombre de la playlist')
+      toast.error(t('playlistDialogs.optionsMenu.rename.toasts.errors.general'))
     }
   })
 
   return (
     <AlertDialogContent>
       <AlertDialogHeader>
-        <AlertDialogTitle>Renombrar playlist</AlertDialogTitle>
+        <AlertDialogTitle>{t('playlistDialogs.optionsMenu.rename.title')}</AlertDialogTitle>
         <AlertDialogDescription>
-          ¿Deseas renombrar esta playlist? Introduce el nuevo nombre de la playlist.
+          {t('playlistDialogs.optionsMenu.rename.description')}
         </AlertDialogDescription>
       </AlertDialogHeader>
 
@@ -206,11 +209,15 @@ export function DialogRenamePlaylist() {
             name="playlistName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nombre de la playlist</FormLabel>
+                <FormLabel>
+                  {t('playlistDialogs.optionsMenu.rename.form.fields.name.title')}
+                </FormLabel>
                 <FormControl>
                   <Input
                     className="!glass-item"
-                    placeholder="Nueva playlist"
+                    placeholder={t(
+                      'playlistDialogs.optionsMenu.rename.form.fields.name.placeholder'
+                    )}
                     disabled={isPending}
                     {...field}
                   />
@@ -223,10 +230,10 @@ export function DialogRenamePlaylist() {
       </Form>
 
       <AlertDialogFooter>
-        <AlertDialogCancel>Cancelar</AlertDialogCancel>
+        <AlertDialogCancel>{t('playlistDialogs.optionsMenu.rename.cancel')}</AlertDialogCancel>
         <AlertDialogAction asChild>
           <Button type="submit" disabled={isPending} form="rename-playlist-form">
-            Confirmar
+            {t('playlistDialogs.optionsMenu.rename.confirm')}
           </Button>
         </AlertDialogAction>
       </AlertDialogFooter>
@@ -235,6 +242,7 @@ export function DialogRenamePlaylist() {
 }
 
 export function DialogAddPlaylist() {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
 
   const [isOpen, setIsOpen] = useState(false)
@@ -242,7 +250,7 @@ export function DialogAddPlaylist() {
   const setActivePlaylist = usePlaylistActiveStore((state) => state.setActivePlaylist)
 
   const form = useForm<PlaylistName>({
-    defaultValues: { playlistName: 'Nueva playlist' },
+    defaultValues: { playlistName: t('playlistDialogs.optionsMenu.create.label') },
     resolver: zodResolver(playlistName)
   })
 
@@ -259,23 +267,25 @@ export function DialogAddPlaylist() {
       setIsOpen(false)
       setActivePlaylist(playlistName)
 
-      toast.success('Playlist creada con éxito')
+      toast.success(t('playlistDialogs.optionsMenu.create.toasts.success.message'))
     } catch {
-      toast.error('Error al crear la playlist')
+      toast.error(t('playlistDialogs.optionsMenu.create.toasts.errors.message'))
     }
   })
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button size="icon">
+        <Button size="icon" variant='outline'>
           <Plus />
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Nueva playlist</DialogTitle>
-          <DialogDescription>Crea una nueva playlist para tus canciones.</DialogDescription>
+          <DialogTitle>{t('playlistDialogs.optionsMenu.create.title')}</DialogTitle>
+          <DialogDescription>
+            {t('playlistDialogs.optionsMenu.create.description')}
+          </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -285,11 +295,15 @@ export function DialogAddPlaylist() {
               name="playlistName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nombre de la playlist</FormLabel>
+                  <FormLabel>
+                    {t('playlistDialogs.optionsMenu.create.form.fields.name.title')}
+                  </FormLabel>
                   <FormControl>
                     <Input
                       className="!glass-item"
-                      placeholder="Nueva playlist"
+                      placeholder={t(
+                        'playlistDialogs.optionsMenu.create.form.fields.name.placeholder'
+                      )}
                       disabled={isPending}
                       {...field}
                     />
@@ -304,12 +318,12 @@ export function DialogAddPlaylist() {
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="secondary" type="button">
-              Cancelar
+              {t('playlistDialogs.optionsMenu.create.cancel')}
             </Button>
           </DialogClose>
 
           <Button form="new-playlist-form" type="submit" disabled={isPending}>
-            Crear
+            {t('playlistDialogs.optionsMenu.create.confirm')}
           </Button>
         </DialogFooter>
       </DialogContent>

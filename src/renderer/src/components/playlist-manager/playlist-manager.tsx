@@ -8,9 +8,11 @@ import { usePlaylistFolders } from '@renderer/queries/use-query-playlist'
 import { Button } from '@renderer/components/ui/button'
 import { cn } from '@renderer/lib/utils'
 import { PlaylistFolders } from '@renderer/components/playlist-manager/playlist-folders'
-import { Skeleton } from '../ui/skeleton'
+import { Skeleton } from '@renderer/components/ui/skeleton'
+import { useTranslation } from 'react-i18next'
 
 export function PlaylistManager() {
+  const { t } = useTranslation()
   const playlistFoldersQuery = usePlaylistFolders()
   const playlistFolders = playlistFoldersQuery.data
 
@@ -38,7 +40,7 @@ export function PlaylistManager() {
           <span className={cn('truncate', !activePlaylist && 'text-muted-foreground')}>
             {activePlaylist
               ? playlistFolders.find((folder) => folder.playlist === activePlaylist)?.playlist
-              : 'Selecciona una playlist'}
+              : t('playlistManager.selector.label')}
           </span>
           <ChevronDown size={16} className="text-muted-foreground/80 shrink-0" aria-hidden="true" />
         </Button>

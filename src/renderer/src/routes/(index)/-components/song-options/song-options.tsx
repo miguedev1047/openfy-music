@@ -23,9 +23,11 @@ import { useSelectedSongStore } from '@renderer/store/use-player-store'
 import { toast } from 'sonner'
 import { usePlaylistActiveStore } from '@renderer/store/use-playlist-manager-store'
 import { SongItemProps } from '@shared/models'
+import { useTranslation } from 'react-i18next'
 
 export function SongOptions(props: SongItemProps) {
   const { filename, id } = props
+  const { t } = useTranslation()
 
   const queryClient = useQueryClient()
   const selectedSong = useSelectedSongStore((state) => state.selectedSong)
@@ -37,12 +39,12 @@ export function SongOptions(props: SongItemProps) {
   const onRemoveSong = async () => {
     try {
       if (!selectedSong) {
-        toast.error('No hay ninguna canción seleccionada')
+        toast.error(t('songActions.toasts.errorMessages.noSongSelected'))
         return
       }
 
       if (selectedSong.id === id) {
-        toast.error('No puedes eliminar la canción que estas reproduciendo')
+        toast.error(t('songActions.toasts.errorMessages.cannotDeletePlayingSong'))
         return
       }
 
@@ -52,10 +54,10 @@ export function SongOptions(props: SongItemProps) {
         playlist: activePlaylist
       })
 
-      toast.success('Canción eliminada')
+      toast.success(t('songActions.toasts.successMessages.deleted'))
       queryClient.invalidateQueries({ queryKey: ['songs'] })
     } catch {
-      toast.error('Error al eliminar la canción')
+      toast.error(t('songActions.toasts.errorMessages.general'))
     }
   }
 
@@ -68,11 +70,11 @@ export function SongOptions(props: SongItemProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent onClick={onPreventClick} side="left">
-          <DropdownMenuLabel>Opciones</DropdownMenuLabel>
+          <DropdownMenuLabel>{t('songActions.title')}</DropdownMenuLabel>
           <AlertDialogTrigger asChild>
             <DropdownMenuItem>
               <Trash2 />
-              Eliminar canción
+              {t('songActions.confirmDeleteDialog.title')}
             </DropdownMenuItem>
           </AlertDialogTrigger>
         </DropdownMenuContent>
@@ -80,14 +82,16 @@ export function SongOptions(props: SongItemProps) {
 
       <AlertDialogContent onClick={onPreventClick}>
         <AlertDialogHeader>
-          <AlertDialogTitle>Eliminar anción</AlertDialogTitle>
+          <AlertDialogTitle> {t('songActions.confirmDeleteDialog.title')}</AlertDialogTitle>
           <AlertDialogDescription>
-            ¿Deseas eliminar esta canción? Esta acción es irreversible.
+            {t('songActions.confirmDeleteDialog.description')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <AlertDialogAction onClick={onRemoveSong}>Eliminar</AlertDialogAction>
+          <AlertDialogCancel>{t('songActions.confirmDeleteDialog.cancel')}</AlertDialogCancel>
+          <AlertDialogAction onClick={onRemoveSong}>
+            {t('songActions.confirmDeleteDialog.confirm')}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

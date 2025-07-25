@@ -7,10 +7,12 @@ import { Button } from '@renderer/components/ui/button'
 import { useSongsPlaylist } from '@renderer/queries/use-query-songs'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { usePlaylistActiveStore } from '@renderer/store/use-playlist-manager-store'
+import { useTranslation } from 'react-i18next'
 
 const ROUTES = ['/', '/config', '/download']
 
 export function usePrevButton() {
+  const { t } = useTranslation()
   const activePlaylist = usePlaylistActiveStore((state) => state.activePlaylist)
   const { data: songs } = useSongsPlaylist(activePlaylist)
 
@@ -42,7 +44,7 @@ export function usePrevButton() {
     const nextSong = getPrevSong()
 
     if (!nextSong) {
-      toast.error('No hay canciones disponibles')
+      toast.error(t('songList.toasts.errors.noSongsAvailable'))
       return
     }
 
@@ -61,6 +63,7 @@ export function usePrevButton() {
 }
 
 export function PrevButton() {
+  const { t } = useTranslation()
   const { onPrevSong, selectedSong } = usePrevButton()
 
   return (
@@ -70,7 +73,7 @@ export function PrevButton() {
           <SkipBackIcon />
         </Button>
       </TooltipTrigger>
-      <TooltipContent>Anterior</TooltipContent>
+      <TooltipContent>{t('tooltips.prevSong')}</TooltipContent>
     </Tooltip>
   )
 }

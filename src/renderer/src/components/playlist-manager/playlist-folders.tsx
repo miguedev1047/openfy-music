@@ -16,8 +16,10 @@ import { playlistsFoldersQueryOptions } from '@renderer/queries/use-query-playli
 import { useQuery } from '@tanstack/react-query'
 import { DialogRemovePlaylist, DialogRenamePlaylist, PlaylistOptions } from './playlist-options'
 import { useConfig } from '@renderer/queries/use-query-data'
+import { useTranslation } from 'react-i18next'
 
 export function PlaylistFolders() {
+  const { t } = useTranslation()
   const selectedManagerOption = usePlaylistActionsStore((state) => state.selectedAction)
 
   const DialogContent = () => {
@@ -34,15 +36,15 @@ export function PlaylistFolders() {
   return (
     <AlertDialog>
       <Command>
-        <CommandInput placeholder="Busca una playlist..." />
+        <CommandInput placeholder={t('playlistManager.selector.label')} />
         <CommandList className="scrollbar-thin scrollbar-thumb-primary scrollbar-thumb-rounded-(--radius)">
-          <CommandEmpty>No hay playlists disponibles.</CommandEmpty>
+          <CommandEmpty>{t('playlistManager.uiStates.noPlaylists')}</CommandEmpty>
           <CommandGroup>
             <PlaylistFolderList />
           </CommandGroup>
         </CommandList>
       </Command>
-      
+
       <DialogContent />
     </AlertDialog>
   )

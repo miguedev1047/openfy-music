@@ -2,16 +2,19 @@ import { SearchIcon, X } from 'lucide-react'
 import { Input } from '@renderer/components/ui/input'
 import { useFilterSongs } from '@renderer/store/use-filter-songs'
 import { useLocation } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 
 const ROUTES = ['/download', '/config']
 
 export function SearchInput() {
+  const { t } = useTranslation()
+
   const search = useFilterSongs((state) => state.search)
   const onSearch = useFilterSongs((state) => state.onSearch)
   const onClearSearch = (): void => onSearch('')
 
   const location = useLocation()
-  const isInRoutes = ROUTES.some(route => location.pathname.startsWith(route))
+  const isInRoutes = ROUTES.some((route) => location.pathname.startsWith(route))
 
   if (isInRoutes) return null
 
@@ -25,7 +28,7 @@ export function SearchInput() {
           value={search}
           onChange={(e) => onSearch(e.target.value)}
           className="peer ps-9 pe-9 app-region-none"
-          placeholder="¿Qué quieres escuchar?"
+          placeholder={t('searchBar.placeholder')}
         />
         <button
           onClick={onClearSearch}

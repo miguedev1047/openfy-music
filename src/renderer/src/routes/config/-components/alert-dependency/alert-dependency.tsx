@@ -4,8 +4,11 @@ import { handleOpenDependencyFolder } from '@renderer/helpers/open-folder'
 import { useConfig } from '@renderer/queries/use-query-data'
 import { useDependencies } from '@renderer/queries/use-query-dependecies'
 import { CheckIcon, MessageCircleWarningIcon } from 'lucide-react'
+import { Trans, useTranslation } from 'react-i18next'
 
 export function AlertDependency() {
+  const { t } = useTranslation()
+
   const configQuery = useConfig()
   const config = configQuery.data
 
@@ -19,27 +22,37 @@ export function AlertDependency() {
   return (
     <Alert>
       {!hasDependencies ? <CheckIcon /> : <MessageCircleWarningIcon />}
-      <AlertTitle>{!hasDependencies ? 'Todo listo' : 'Faltan dependencias'}</AlertTitle>
+      <AlertTitle>
+        {!hasDependencies
+          ? t('settings.form.preferences.fields.allowYTDLP.disclaimer.dependencyStatus.found.title')
+          : t(
+              'settings.form.preferences.fields.allowYTDLP.disclaimer.dependencyStatus.missing.title'
+            )}
+      </AlertTitle>
       <AlertDescription>
         {!hasDependencies && (
           <span>
-            Las dependencias necesarias han sido <Badge variant="secondary">detectadas</Badge>. No
-            es necesario realizar ninguna acción.
+            <Trans i18nKey="settings.form.preferences.fields.allowYTDLP.disclaimer.dependencyStatus.found.description">
+              Las dependencias necesarias han sido <Badge variant="secondary">detectadas</Badge>. No
+              es necesario realizar ninguna acción.
+            </Trans>
           </span>
         )}
 
         {hasDependencies && (
           <span>
-            No se detectaron algunas dependencias <Badge variant="destructive">faltantes</Badge>.{' '}
-            <br />
-            Puedes descargarlas desde esta carpeta:{' '}
-            <span
-              className="text-primary hover:underline"
-              onClick={handleOpenDependencyFolder}
-              role="button"
-            >
-              Abrir carpeta
-            </span>
+            <Trans i18nKey='settings.form.preferences.fields.allowYTDLP.disclaimer.dependencyStatus.missing.description'>
+              No se detectaron algunas dependencias <Badge variant="destructive">faltantes</Badge>.{' '}
+              <br />
+              Puedes descargarlas desde esta carpeta:{' '}
+              <span
+                className="text-primary hover:underline"
+                onClick={handleOpenDependencyFolder}
+                role="button"
+              >
+                Abrir carpeta
+              </span>
+            </Trans>
           </span>
         )}
       </AlertDescription>

@@ -7,13 +7,16 @@ import {
 } from '@renderer/components/ui/card'
 import { ThemeSelector } from '@renderer/components/ui/theme-selector'
 import { ModeToggle } from '@renderer/components/ui/mode-toggle'
+import { useTranslation } from 'react-i18next'
 
 export function ThemesForm() {
+  const { t } = useTranslation()
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Temas</CardTitle>
-        <CardDescription>Selecciona el tema de tu preferencia.</CardDescription>
+        <CardTitle>{t('settings.form.themes.title')}</CardTitle>
+        <CardDescription> {t('settings.form.themes.description')}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="w-full grid grid-cols-2 gap-4">

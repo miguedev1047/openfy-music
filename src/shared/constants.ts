@@ -1,6 +1,6 @@
 export const DEFAULT_THEMES = [
   {
-    name: 'Por defecto',
+    name: 'settings.form.themes.colors.default',
     value: 'default'
   }
 ]
@@ -8,63 +8,68 @@ export const DEFAULT_THEMES = [
 export const DOWNLOAD_TYPES = [
   {
     value: 'playlist',
-    label: 'Playlist'
+    label: 'download.form.download.downloadTypes.playlist'
   },
   {
     value: 'normal',
-    label: 'Solo la canción'
+    label: 'download.form.download.downloadTypes.normal'
   }
 ]
 
 export const COLOR_THEMES = [
   {
-    name: 'Azul',
+    name: 'settings.form.themes.colors.options.blue',
     value: 'blue',
     color: 'oklch(0.62 0.19 260)'
   },
   {
-    name: 'Verde',
+    name: 'settings.form.themes.colors.options.green',
     value: 'green',
     color: 'oklch(0.72 0.19 150)'
   },
   {
-    name: 'Ambar',
+    name: 'settings.form.themes.colors.options.amber',
     value: 'amber',
     color: 'oklch(0.77 0.16 70)'
   },
   {
-    name: 'Rosa',
+    name: 'settings.form.themes.colors.options.rose',
     value: 'rose',
     color: 'oklch(0.65 0.22 16)'
   },
   {
-    name: 'Violeta',
+    name: 'settings.form.themes.colors.options.purple',
     value: 'purple',
     color: 'oklch(0.63 0.23 304)'
   },
   {
-    name: 'Fuchsia',
+    name: 'settings.form.themes.colors.options.fuchsia',
     value: 'fuchsia',
     color: 'oklch(0.67 0.26 322)'
   },
   {
-    name: 'Naranja',
+    name: 'settings.form.themes.colors.options.orange',
     value: 'orange',
     color: 'oklch(0.70 0.19 48)'
   },
   {
-    name: 'Teal',
+    name: 'settings.form.themes.colors.options.teal',
     value: 'teal',
     color: 'oklch(0.70 0.12 183)'
   },
   {
-    name: 'Rojo',
+    name: 'settings.form.themes.colors.options.red',
     value: 'red',
     color: 'oklch(0.64 0.21 25)'
   },
   {
-    name: 'Amarillo',
+    name: 'settings.form.themes.colors.options.yellow',
     value: 'yellow',
     color: 'oklch(0.80 0.16 86)'
   }
 ]
+
+export const LNGS = {
+  en: { nativeName: 'English' },
+  es: { nativeName: 'Español' }
+} 

@@ -10,6 +10,8 @@ import { AudioRefProvider } from '@renderer/providers/audio-ref-provider'
 import { ThemeProvider } from '@renderer/providers/theme-provider'
 import { ActiveThemeProvider } from '@renderer/components/ui/active-theme'
 
+import './i18next'
+
 scan({ enabled: process.env.NODE_ENV === 'development' })
 
 const memoryHistory = createHashHistory()

@@ -3,6 +3,7 @@ import { useSelectedSongStore, useAudioOptsStore } from '@renderer/store/use-pla
 import { useAudioRef } from '@renderer/providers/audio-ref-provider'
 import { Shuffle } from 'lucide-react'
 import { Button } from '@renderer/components/ui/button'
+import { useTranslation } from 'react-i18next'
 
 export function useShuffleButton() {
   const { audioRef } = useAudioRef()
@@ -25,6 +26,7 @@ export function useShuffleButton() {
 }
 
 export function ShuffleButton() {
+  const { t } = useTranslation()
   const { onToggleShuffle, isShuffle, selectedSong } = useShuffleButton()
 
   return (
@@ -39,9 +41,7 @@ export function ShuffleButton() {
           <Shuffle />
         </Button>
       </TooltipTrigger>
-      <TooltipContent>
-        {isShuffle ? 'Desactivar modo aleatorio' : 'Activar modo aleatorio'}
-      </TooltipContent>
+      <TooltipContent>{t('tooltips.toggleShuffle')}</TooltipContent>
     </Tooltip>
   )
 }

@@ -5,6 +5,7 @@ import { AudioLines } from '@renderer/components/animate-ui/icons/audio-lines'
 import { Link } from '@tanstack/react-router'
 import { Box } from '@renderer/components/ui/box'
 import { MusicIcon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export function SongPreview() {
   return (
@@ -17,6 +18,7 @@ export function SongPreview() {
 
 export function SongDetails() {
   const selectedSong = useSelectedSongStore((state) => state.selectedSong)
+  const { t } = useTranslation()
 
   if (!selectedSong)
     return (
@@ -26,8 +28,8 @@ export function SongDetails() {
         </figure>
 
         <div>
-          <h2 className="text-2xl font-black">Hola, :D</h2>
-          <p className="font-light">Selecciona una canción para escucharla.</p>
+          <h2 className="text-2xl font-black">{t('songPreview.title')}</h2>
+          <p className="font-light">{t('songPreview.description')}</p>
         </div>
       </div>
     )
@@ -61,7 +63,6 @@ export function SongAudioLines() {
 
   return (
     <div className="w-full inset-x-0 bottom-0 translate-y-[50%] h-auto mx-auto opacity-50 absolute  text-primary flex items-center">
-     
       {[...Array(2)].map((_, index) => (
         <AnimateIcon key={index} loop animate={isPlaying}>
           <AudioLines className="size-full" />

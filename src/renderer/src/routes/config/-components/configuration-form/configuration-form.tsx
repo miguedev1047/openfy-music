@@ -38,8 +38,11 @@ import { Switch } from '@renderer/components/ui/switch'
 import { useQueryClient } from '@tanstack/react-query'
 import { AlertDependency } from '../alert-dependency'
 import { Alert, AlertDescription, AlertTitle } from '@renderer/components/ui/alert'
+import { useTranslation } from 'react-i18next'
+import { LgnsSwitcher } from '@renderer/components/lngs-switcher'
 
 export function ConfigurationForm() {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
 
   const configQuery = useConfig()
@@ -70,17 +73,17 @@ export function ConfigurationForm() {
       })
 
       queryClient.invalidateQueries(configQueryOpts)
-      toast.success('Configuracion actualizada con exito')
+      toast.success(t('settings.form.preferences.fields.allowYTDLP.toasts.success.message'))
     } catch {
-      toast.error('Ha ocurrido un error al actualizar la configuracion')
+      toast.error(t('settings.form.preferences.fields.allowYTDLP.toasts.errors.message'))
     }
   })
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Configuración</CardTitle>
-        <CardDescription>Configura tus preferencias de Openfy Music.</CardDescription>
+        <CardTitle>{t('settings.form.preferences.title')}</CardTitle>
+        <CardDescription> {t('settings.form.preferences.description')}</CardDescription>
       </CardHeader>
       <CardContent className="grid grid-cols-2 gap-6">
         <Form {...form}>
@@ -90,16 +93,24 @@ export function ConfigurationForm() {
               name="defaulFolder"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>Playlist por defecto</FormLabel>
+                  <FormLabel>
+                    {t('settings.form.preferences.fields.defaultPlaylist.title')}
+                  </FormLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Selecciona una playlist por defecto" />
+                        <SelectValue
+                          placeholder={t(
+                            'settings.form.preferences.fields.defaultPlaylist.description'
+                          )}
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectLabel>Playlists</SelectLabel>
+                        <SelectLabel>
+                          {t('settings.form.preferences.fields.defaultPlaylist.label')}
+                        </SelectLabel>
                         <SelectSeparator />
                         <SelectContent>
                           {playlistFolders.map((folder) => (
@@ -114,7 +125,7 @@ export function ConfigurationForm() {
                   </Select>
 
                   <FormDescription>
-                    La carpeta que escojas sera tu playlist principal.
+                    {t('settings.form.preferences.fields.defaultPlaylist.description')}
                   </FormDescription>
                 </FormItem>
               )}
@@ -139,28 +150,38 @@ export function ConfigurationForm() {
                               <InfoIcon />
                             </Button>
                           </HoverCardTrigger>
-                          <HoverCardContent side='left' className="w-[480px] text-pretty p-0">
+                          <HoverCardContent side="left" className="w-[480px] text-pretty p-0">
                             <Alert variant="destructive" className="border-0">
                               <MessageCircleWarningIcon />
-                              <AlertTitle>Aviso de responsabilidad</AlertTitle>
+                              <AlertTitle>
+                                {t('settings.form.preferences.fields.allowYTDLP.disclaimer.title')}
+                              </AlertTitle>
                               <AlertDescription>
-                                <p>El uso de esta funcionalidad es responsabilidad del usuario.</p>
                                 <p>
-                                  Este reproductor solo actúa como un puente gráfico para
-                                  herramientas de código abierto.
+                                  {t(
+                                    'settings.form.preferences.fields.allowYTDLP.disclaimer.note1'
+                                  )}
                                 </p>
                                 <p>
-                                  Asegúrate de cumplir con las leyes de derechos de autor en tu
-                                  país.
+                                  {t(
+                                    'settings.form.preferences.fields.allowYTDLP.disclaimer.note2'
+                                  )}
+                                </p>
+                                <p>
+                                  {t(
+                                    'settings.form.preferences.fields.allowYTDLP.disclaimer.note3'
+                                  )}
                                 </p>
                               </AlertDescription>
                             </Alert>
                           </HoverCardContent>
                         </HoverCard>
-                        <FormLabel>Permitir descargas por YT-DLP</FormLabel>
+                        <FormLabel>
+                          {t('settings.form.preferences.fields.allowYTDLP.label')}
+                        </FormLabel>
                       </div>
                       <FormDescription>
-                        Esto habilita la opción de descargar canciones en formato MP3 desde YouTube.
+                        {t('settings.form.preferences.fields.allowYTDLP.description')}
                       </FormDescription>
                     </div>
                     <FormControl>
@@ -173,12 +194,13 @@ export function ConfigurationForm() {
             </div>
           </form>
         </Form>
+        <LgnsSwitcher />
       </CardContent>
 
       <CardFooter>
         <CardAction>
           <Button disabled={isPending} form="update-folder-form">
-            Guardar
+            {t('settings.form.preferences.saveButton')}
           </Button>
         </CardAction>
       </CardFooter>

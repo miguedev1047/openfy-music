@@ -4,6 +4,7 @@ import { Button } from '@renderer/components/ui/button'
 import { Repeat } from 'lucide-react'
 import { useAudioRef } from '@renderer/providers/audio-ref-provider'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export function useLoopButton() {
   const { audioRef } = useAudioRef()
@@ -31,6 +32,7 @@ export function useLoopButton() {
 }
 
 export function LoopButton() {
+  const { t } = useTranslation()
   const { onToggleLoop, isLoop, selectedSong } = useLoopButton()
 
   return (
@@ -45,9 +47,7 @@ export function LoopButton() {
           <Repeat />
         </Button>
       </TooltipTrigger>
-      <TooltipContent>
-        {isLoop ? 'Desactivar modo repetición' : 'Activar modo repetición'}
-      </TooltipContent>
+      <TooltipContent>{t('tooltips.toggleLoop')}</TooltipContent>
     </Tooltip>
   )
 }

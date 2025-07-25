@@ -9,6 +9,7 @@ import { LoadingState } from '@renderer/components/ui-states/_index'
 import { ErrorState } from '@renderer/components/ui-states/error'
 import { EmptyState } from '@renderer/components/ui-states/empty'
 import { usePlaylistActiveStore } from '@renderer/store/use-playlist-manager-store'
+import { useTranslation } from 'react-i18next'
 
 const MemoizedSongItem = memo(SongItem)
 
@@ -35,27 +36,29 @@ export function useSongList() {
 }
 
 export function SongList() {
+  const { t } = useTranslation()
+
   const { activePlaylist, songsQuery, songs, parentRef, filteredItems, rowVirtualizer, items } =
     useSongList()
 
   if (songsQuery.isLoading) {
-    return <LoadingState message="Cargando canciones..." />
+    return <LoadingState message={t('songList.uiStates.loading')} />
   }
 
   if (songsQuery.isError || !songsQuery) {
-    return <ErrorState message="Error al cargar las canciones" />
+    return <ErrorState message={t('songList.uiStates.error')} />
   }
 
   if (!activePlaylist) {
-    return <EmptyState message="Selecciona o crea una playlist" />
+    return <EmptyState message={t('songList.uiStates.noPlaylistSelected')} />
   }
 
   if (!songs.length) {
-    return <EmptyState message="No hay canciones en esta playlist" />
+    return <EmptyState message={t('songList.uiStates.emptyPlaylist')} />
   }
 
   if (!filteredItems.length) {
-    return <EmptyState message="No se encontraron canciones que coincidan con tu búsqueda" />
+    return <EmptyState message={t('songList.uiStates.notFound')} />
   }
 
   return (

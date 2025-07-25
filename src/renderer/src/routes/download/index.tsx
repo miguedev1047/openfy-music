@@ -8,6 +8,7 @@ import { ErrorState } from '@renderer/components/ui-states/error'
 import { Button } from '@renderer/components/ui/button'
 import { FolderIcon } from 'lucide-react'
 import { configQueryOpts } from '@renderer/queries/use-query-data'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/download/')({
   loader: async ({ context }) => {
@@ -18,24 +19,25 @@ export const Route = createFileRoute('/download/')({
 })
 
 export function RouteComponent() {
+  const { t } = useTranslation()
   const { dependenciesQuery, hasDependencies, handleOpenDependecyFolder } = useCheckDependencies()
 
   if (dependenciesQuery.isLoading) {
-    return <LoadingState message="Leyendo dependencias..." />
+    return <LoadingState message={t('download.uiStates.loading')} />
   }
 
   if (dependenciesQuery.isError) {
-    return <ErrorState message="Error al leer las dependencias." />
+    return <ErrorState message={t('download.uiStates.error')} />
   }
 
   if (hasDependencies) {
     return (
       <Box className="size-full flex items-center justify-center">
         <div className="flex flex-col gap-2">
-          <ErrorState message="No se encontraron las dependencias necesarias." />
+          <ErrorState message={t('download.uiStates.missingDependencies.title')} />
           <Button onClick={handleOpenDependecyFolder}>
             <FolderIcon />
-            <span>Abrir carpeta de dependencias</span>
+            <span>{t('download.uiStates.missingDependencies.button')}</span>
           </Button>
         </div>
       </Box>

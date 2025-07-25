@@ -9,7 +9,7 @@ import { Play } from 'lucide-react'
 import { AnimateIcon } from '@renderer/components/animate-ui/icons/icon'
 import { AudioLines } from '@renderer/components/animate-ui/icons/audio-lines'
 import { Box } from '@renderer/components/ui/box'
-import { SongOptions } from '../song-options'
+import { SongOptions } from '@renderer/routes/(index)/-components/song-options'
 
 export function useSongItem(props: SongItemProps) {
   const { artist, duration, src, title, pic, index } = props
