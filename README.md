@@ -1,61 +1,42 @@
-# 🎵 Open Music MP3 Player
+# 📚 Project Documentation
 
-Un reproductor de música MP3 minimalista y personalizable, enfocado en una experiencia simple pero potente.  
-
-## ✨ Funcionalidades
-
-- 🎧 **Playlists organizadas**  
-  Ordena tus canciones en diferentes carpetas. Puedes cambiar la playlist predeterminada desde el panel de opciones.
-
-- 🔊 **Reproducción de alta calidad**  
-  Disfruta de tu música con un sonido claro y nítido.
-
-- 🎨 **Soporte para temas (10 disponibles)**  
-  Cambia la apariencia del reproductor según tus gustos.
-
-- ⬇️ **Descarga música a MP3**  
-  Descarga canciones directamente en la playlist que elijas.
-
-- 🛠️ **Modos de descarga flexibles**  
-  Elige entre descargar una sola canción o una playlist completa.
+Welcome to the official documentation! Here you’ll find everything you need to understand, use to this project.
 
 ---
 
-### 🪟 Para usuarios de **Windows**
+## 🏁 Introduction
 
-📦 Descarga la última versión del instalador desde la sección de [Releases](https://github.com/miguedev1047/openfy-music/releases).
+Start by learning the basics of the project:
 
-🔗 **[Haz clic aquí para descargar Open Music](https://github.com/miguedev1047/openfy-music/releases/latest)**
-
----
-
-### 🍎 Para usuarios de **macOS** *(Próximamente)*
-
-🚧 Etsoy trabajando en una versión para macOS.
+- 🇪🇸 [¡Bienvenido!](./docs/es/introductions/welcome.md)
+- 🇬🇧 [Welcome!](./docs/en/introductions/welcome.md)
 
 ---
 
-### 🐧 Para usuarios de **Linux** *(Próximamente)*
+## 🧑‍🏫 Tutorials
 
-🚧 Soporte para Linux está en desarrollo.
+Follow these step-by-step guides to explore common tasks:
+
+- 🇪🇸 [Cómo descargar música](./docs/es/tutorials/download-music.md)
+- 🇬🇧 [How to download music](./docs/en/tutorials/download-music.md)
 
 ---
 
-# 🛡️ Aviso de responsabilidad
-El uso de la función de descarga es **responsabilidad del usuario**.
+## 🌐 Languages
 
-Este reproductor actúa como una **interfaz gráfica** para herramientas de código abierto como `yt-dlp` y `ffmpeg`.
+This documentation is available in multiple languages:
 
-Asegúrate de **cumplir con las leyes de derechos de autor** en tu país.
-  
+- 🇪🇸 Español: carpeta `docs/es`
+- 🇬🇧 English: folder `docs/en`
+
 ---
 
-## Imagenes
-![Imagen Demo 1](https://github.com/miguedev1047/openfy-music/blob/master/resources/openmusic-demo-1.png)
----
-![Imagen Demo 2](https://github.com/miguedev1047/openfy-music/blob/master/resources/openmusic-demo-2.png)
----
-![Imagen Demo 3](https://github.com/miguedev1047/openfy-music/blob/master/resources/openmusic-demo-3.png)
----
-![Imagen Demo 4](https://github.com/miguedev1047/openfy-music/blob/master/resources/openmusic-demo-4.png)
----
+## Photos
+
+## ![Imagen Demo 1](https://github.com/miguedev1047/openfy-music/blob/master/resources/openmusic-demo-1.png)
+
+## ![Imagen Demo 2](https://github.com/miguedev1047/openfy-music/blob/master/resources/openmusic-demo-2.png)
+
+## ![Imagen Demo 3](https://github.com/miguedev1047/openfy-music/blob/master/resources/openmusic-demo-3.png)
+
+## ![Imagen Demo 4](https://github.com/miguedev1047/openfy-music/blob/master/resources/openmusic-demo-4.png)
