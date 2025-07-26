@@ -7,9 +7,11 @@ import { usePlaylistActiveStore } from '@renderer/store/use-playlist-manager-sto
 import { downloadMusicMP3, DownloadMusicMP3 } from '@schemas/index'
 import { useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 
 export function useDownloadForm() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
   const isDownloading = useDownloadManager((state) => state.isDownloading)
@@ -33,33 +35,31 @@ export function useDownloadForm() {
       await window.api.downloadMusicMP3({ folder: values.folder, url })
 
       showNotification({
-        title: '¡Tus canción(es) han sido descargadas!',
-        body: 'Se han descargado las canción(es) seleccionadas.'
+        title: t('download.notification.title'),
+        body: t('download.notification.body')
       })
 
-      toast.success('Descarganda completa con exito')
+      toast.success(t('download.toasts.success.message'))
     } catch (error) {
       if (error instanceof Error) {
         const message = error.message.toLowerCase()
 
         if (message.includes('invalid url')) {
-          toast.error('La URL es inválida.')
+          toast.error(t('download.toasts.errors.invalidUrl'))
           return
         }
 
         if (message.includes('youtube said')) {
-          toast.warning(
-            'La canción se descargó parcialmente. Algunos videos eran privados o no estaban disponibles.'
-          )
+          toast.warning(t('download.toasts.warning.message'))
           return
         }
 
         if (message.includes('drm')) {
-          toast.error('El contenido está protegido por DRM y no se puede descargar.')
+          toast.error(t('download.toasts.errors.drmProtected'))
           return
         }
 
-        toast.error('Ocurrió un error al descargar la(s) canción(es). Intenta de nuevo.')
+        toast.error(t('download.toasts.errors.general'))
       }
     } finally {
       setIsDownloading(false)
