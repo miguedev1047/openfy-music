@@ -8,9 +8,10 @@ import { LaptopIcon, MoonIcon, SunIcon } from 'lucide-react'
 import { Button } from '@renderer/components/ui/button'
 import { useTheme } from 'next-themes'
 import { useTransition } from 'react'
-import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 
 export function ModeToggle() {
+  const { t } = useTranslation()
   const { setTheme } = useTheme()
   const [isPending, startTransition] = useTransition()
 
@@ -20,7 +21,7 @@ export function ModeToggle() {
         setTheme(theme)
         await window.api.updateConfigData({ theme })
       } catch {
-        toast.error('Error al cambiar el tema')
+        console.error('An error occurred while changing the theme.')
       }
     })
   }
@@ -33,9 +34,15 @@ export function ModeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => handleChangeTheme('light')}>Claro</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleChangeTheme('dark')}>Oscuro</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleChangeTheme('system')}>Sistema</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleChangeTheme('light')}>
+          {t('settings.form.themes.modes.light')}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleChangeTheme('dark')}>
+          {t('settings.form.themes.modes.dark')}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleChangeTheme('system')}>
+          {t('settings.form.themes.modes.system')}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

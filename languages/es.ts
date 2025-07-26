@@ -110,6 +110,11 @@ export const ES = {
               red: 'Rojo',
               yellow: 'Amarillo'
             }
+          },
+          modes: {
+            dark: 'Oscuro',
+            light: 'Claro',
+            system: 'Ordenador'
           }
         }
       }

@@ -107,6 +107,11 @@ export const EN = {
               red: 'Red',
               yellow: 'Yellow'
             }
+          },
+          modes: {
+            dark: 'Dark',
+            light: 'Light',
+            system: 'System'
           }
         }
       }
