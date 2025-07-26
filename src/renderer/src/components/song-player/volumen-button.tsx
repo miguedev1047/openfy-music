@@ -83,34 +83,6 @@ export function VolumenButton() {
       <Button size="icon" disabled={!selectedSong} onClick={onMuteVolumen}>
         <VolumenIcon />
       </Button>
-
-      {/* <Tooltip>
-        <Popover>
-          <TooltipTrigger asChild>
-            <PopoverTrigger asChild>
-              <Button disabled={!selectedSong} size="icon">
-                <VolumenIcon />
-              </Button>
-            </PopoverTrigger>
-          </TooltipTrigger>
-          <PopoverContent side="top" align="end" className="!glass-item w-14">
-            <div className="flex flex-col gap-2">
-      <Slider
-        value={[isMuted ? 0 : volume]}
-        orientation="vertical"
-        onValueChange={onChangeVolumen}
-        max={1}
-        min={0}
-        step={0.01}
-      />
-      <Button variant="transparent" onClick={onMuteVolumen}>
-        <VolumenIcon />
-      </Button>
-    </div>
-          </PopoverContent>
-        </Popover>
-        <TooltipContent>Volumen</TooltipContent>
-      </Tooltip> */}
     </div>
   )
 }
