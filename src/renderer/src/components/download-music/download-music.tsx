@@ -6,6 +6,7 @@ import { Box } from '@renderer/components/ui/box'
 import { LoadingState2 } from '@renderer/components/ui-states/loading'
 import { AnimateIcon } from '../animate-ui/icons/icon'
 import { Download } from '../animate-ui/icons/download-icon'
+import { useTranslation } from 'react-i18next'
 
 export function DownloadMusicButton() {
   const configQuery = useConfig()
@@ -33,6 +34,7 @@ export function DownloadMusicButton() {
 }
 
 export function DownloadMusicPreview() {
+  const { t } = useTranslation()
   const isDownloading = useDownloadManager((state) => state.isDownloading)
 
   if (!isDownloading) return null
@@ -41,7 +43,7 @@ export function DownloadMusicPreview() {
     <Box className="p-4">
       <LoadingState2
         className="p-0 justify-start"
-        message="Estamos descargando tus canciones, por favor espera..."
+        message={t('download.downloadingMessage')}
       />
     </Box>
   )
