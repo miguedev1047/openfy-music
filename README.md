@@ -40,3 +40,12 @@ This documentation is available in multiple languages:
 ## ![Imagen Demo 3](https://github.com/miguedev1047/openfy-music/blob/master/resources/openmusic-demo-3.png)
 
 ## ![Imagen Demo 4](https://github.com/miguedev1047/openfy-music/blob/master/resources/openmusic-demo-4.png)
+
+## 🚀 Tech Stack
+
+- **Frontend:** React, Electron, Tanstack Router, Tailwind CSS, shadcn/ui
+- **Backend:** NodeJS.
+- **State Management:** TanStack Query & Zustand
+
+---
+
